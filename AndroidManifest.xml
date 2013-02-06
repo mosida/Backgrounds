@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      package="com.galeapp.backgrounds"
+      android:versionCode="12"
+      android:versionName="2.1">
+     
+    <uses-sdk android:minSdkVersion="5" />
+    <application android:icon="@drawable/icon" android:label="@string/app_name">
+        <activity android:name=".activity.SplashActivity" android:screenOrientation="portrait"
+                  android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>            
+            <intent-filter>
+                <action android:name="android.intent.action.SET_WALLPAPER" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.SettingActivity">         
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"></action>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.TabMainActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.RecentActivity"></activity>
+        <activity android:name=".activity.HotestActivity"></activity>
+        <activity android:name=".activity.CategoryActivity"></activity>
+        <activity android:name=".activity.FavoriteActivity"></activity>
+        <activity android:name=".activity.TopicActivity"></activity>
+
+        <activity android:name=".activity.MyWallpaperActivity"></activity>
+        <activity android:name=".activity.PicActivity"></activity>
+        
+        <activity android:name=".activity.PreviewActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.WallpaperActivity" android:screenOrientation="portrait"></activity>
+        
+        <receiver android:name=".receiver.WallpaperReceiver" android:process=":remote"></receiver>
+        <receiver android:name=".receiver.WidgetRefreshReceiver" android:process=":refresh"></receiver>
+        <receiver android:name=".receiver.WidgetPlayReceiver" android:process=":play"></receiver>
+        <receiver android:name=".receiver.RebootReceiver" android:process=":reboot"> 
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>            
+        </receiver>        
+        <receiver android:name=".widget.WidgetProvider"
+            android:label="@string/wiget_mini"
+        >
+            <meta-data android:name="android.appwidget.provider"
+                    android:resource="@xml/appwidget_provider" />
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+        </receiver>        
+        <receiver android:name=".widget.HugeWidgetProvider"
+            android:label="@string/wiget_mid"
+        >
+            <meta-data android:name="android.appwidget.provider"
+                    android:resource="@xml/huge_appwidget_provider" />
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+        </receiver>
+        <!-- youmi -->
+        
+        <meta-data android:name="YOUMI_APPID" android:value="38285e040fc5d559"/>
+        <service android:name="net.youmi.push.android.YoumiService"></service>      
+        <activity android:name="net.youmi.push.android.YoumiActivity" android:configChanges="keyboard|keyboardHidden|orientation"></activity>
+        <receiver android:name="net.youmi.push.android.YoumiReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_ADDED"/>
+                <action android:name="android.intent.action.PACKAGE_INSTALL"/>
+                <data android:scheme="package"/>
+            </intent-filter>
+             <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+            </intent-filter> 
+        </receiver>
+        
+        <activity android:name="net.youmi.android.AdActivity"
+                  android:configChanges="keyboard|keyboardHidden|orientation"/>
+        <activity android:configChanges="keyboard|keyboardHidden|orientation" android:name="net.youmi.android.appoffers.YoumiOffersActivity">  
+        </activity> 
+        
+         <receiver android:name="net.youmi.android.YoumiReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_ADDED"/>
+                <action android:name="android.intent.action.PACKAGE_INSTALL"/>
+                <data android:scheme="package"/>
+            </intent-filter>
+        </receiver> 
+        
+        
+        <receiver android:name="com.galeapp.backgrounds.MiPayReceiver" >
+             <intent-filter>
+               <action android:name="38285e040fc5d559" />
+             </intent-filter>
+        </receiver>
+        <!-- umeng -->
+        <activity android:name="com.feedback.ui.SendFeedback" android:windowSoftInputMode="adjustResize" /> 
+        <activity android:name="com.feedback.ui.FeedbackConversations" /> 
+        <activity android:name="com.feedback.ui.FeedbackConversation" android:configChanges="keyboard" />                   
+        <meta-data android:value="4e686e31527015049e000002" android:name="UMENG_APPKEY"></meta-data>                   
+        <meta-data android:value="米掌柜" android:name="UMENG_CHANNEL"></meta-data>
+        <activity android:name="com.umeng.fb.ui.SendFeedback"
+            android:windowSoftInputMode="adjustResize" />
+        <activity android:name="com.umeng.fb.ui.FeedbackConversations" />
+        <activity android:name="com.umeng.fb.ui.FeedbackConversation"
+            android:configChanges="keyboard" />
+        <!-- umeng sns -->
+        <activity android:name="com.umeng.api.activity.OauthActivity"
+                  android:screenOrientation="unspecified"
+                  android:windowSoftInputMode="adjustResize"
+                  android:configChanges="orientation|keyboardHidden">
+        </activity>
+        <activity android:name="com.umeng.api.activity.UpdateStatusActivity"
+                  android:theme="@style/Theme.IOSched"
+                  android:windowSoftInputMode="stateVisible|adjustResize"
+                  android:screenOrientation="unspecified"
+                  android:configChanges="orientation|keyboardHidden">
+        </activity>  
+        
+
+    </application>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.SET_WALLPAPER"/>
+    <uses-permission android:name="android.permission.SET_WALLPAPER_HINTS"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
+    <uses-permission android:name="android.permission.READ_LOGS"></uses-permission> 
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"></uses-permission>
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>  
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <supports-screens android:anyDensity="true" android:normalScreens="true" android:largeScreens="true" />    
+</manifest>

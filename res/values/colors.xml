@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <color name="item_bg">#ffD1FECF</color>
+    <color name="item_selected_bg">#ffDBEFEA</color>
+    <color name="item_child_bg">#ffDBEFEA</color>
+    <color name="item_child_selected_bg">#ffD1FECF</color>
+    <color name="result_view_line">#ff2BB3D5</color>
+    <color name="sub_title">#ffcccccc</color>
+    <color name="sub_title_n">#ffE0E0E0</color>
+    <color name="container_bg">#ffDBEFEA</color>
+    <color name="category_container_bg">#ffC1E896</color>
+</resources>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <array name="rank_names">
+        <item>@string/rank_all</item>
+        <item>@string/rank_week</item>
+        <item>@string/rank_day</item>
+        <item>@string/rank_cold</item>
+        <item>@string/rank_rand</item>
+    </array>
+    <string-array name="change_time">
+        <item>1小时</item>
+        <item>2小时</item>
+        <item>4小时</item>
+        <item>6小时</item>
+        <item>12小时</item>
+        <item>一天</item>
+        <item>一周</item>
+    </string-array>
+    <string-array name="change_time_value">
+        <item>1</item>
+        <item>2</item>
+        <item>4</item>
+        <item>6</item>
+        <item>12</item>
+        <item>24</item>
+        <item>168</item>
+    </string-array>
+    <array name="mywallpaper_opt">
+        <item>查看图片</item>
+        <item>设置壁纸</item>
+        <item>微博分享</item>
+        <item>删除图片</item>
+    </array>
+    <array name="price_score">
+        <item>50积分（0.1元）</item>
+        <item>100积分（0.2元）</item>
+        <item>150积分（0.3元）</item>
+    </array>
+</resources>

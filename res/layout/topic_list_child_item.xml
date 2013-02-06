@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="horizontal"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:background="@drawable/item_child_selector"
+  >
+    <TextView 
+        android:id="@+id/subTopic"
+        android:layout_width="wrap_content"
+        android:layout_height="48.0dip"
+        android:textSize="16.0sp"
+        android:textColor="#ff1f503e"
+        android:gravity="center_vertical"
+        android:layout_alignParentLeft="true"
+    />
+    <TextView 
+        android:id="@+id/subTopicCount"
+        android:layout_width="wrap_content"
+        android:textSize="14.0sp"
+        android:layout_height="48.0dip"
+        android:gravity="center_vertical"
+        android:paddingLeft="5.0dip"
+        android:layout_toRightOf="@+id/subTopic"
+    />
+    <TextView 
+        android:id="@+id/subTopicScore"
+        android:layout_width="wrap_content"
+        android:textSize="15.0sp"
+        android:layout_height="48.0dip"
+        android:layout_alignParentRight="true"
+        android:gravity="center_vertical"
+        android:layout_marginRight="5.0dip"
+    />
+</RelativeLayout>

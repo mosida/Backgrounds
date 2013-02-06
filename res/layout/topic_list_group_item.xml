@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="horizontal"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:background="@drawable/item_selector"
+  >
+    <TextView 
+        android:id="@+id/topic"
+        android:layout_width="wrap_content"
+        android:layout_height="48.0dp"
+        android:textSize="15.0sp"
+        android:textColor="#ff1f503e"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="10.0dp"
+    />
+    <TextView
+        android:id="@+id/topicCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="11.0sp"
+        android:textColor="#ff666666"
+    />
+    <ImageView 
+        android:id="@+id/topicImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+    />
+</LinearLayout>

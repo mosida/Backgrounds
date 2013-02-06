@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:umadsdk="http://schemas.android.com/apk/res/com.galeapp.backgrounds"
+  android:layout_width="fill_parent" 
+  android:layout_height="fill_parent"
+  android:orientation="vertical"
+  >
+    <include layout="@layout/app_header"/>
+    <LinearLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+    >
+        <Button
+            android:id="@+id/setWallpaper" 
+            android:text="@string/set_as_wallpaper"
+            android:gravity="center"
+            android:textColor="#ffffffff" 
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button"
+            android:layout_weight="1"
+            android:textSize="13.0sp" 
+        ></Button>
+        <Button
+            android:id="@+id/setContact" 
+            android:text="@string/set_as_contact"
+            android:gravity="center"
+            android:textColor="#ffffffff" 
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button"
+            android:layout_weight="1"
+            android:textSize="13.0sp" 
+        ></Button>
+    </LinearLayout>
+    <RelativeLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1.0"
+        android:background="@drawable/preview_bg"
+        >
+        <ImageView android:id="@+id/preview"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:adjustViewBounds="true"
+            android:layout_centerInParent="true"
+        />
+        <ImageView android:id="@+id/star" 
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" 
+            android:layout_margin="5.0dip" 
+            android:src="@drawable/star" 
+            android:visibility="invisible"
+            android:layout_alignRight="@+id/preview" />        
+        <TextView android:id="@+id/info"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="11.0sp"
+            android:textColor="#ffffffff"
+            android:background="#90000000"
+            android:padding="3.0dip" 
+            android:visibility="gone"
+            android:gravity="center"
+            android:layout_alignBottom="@+id/preview"
+        />
+        <ImageView 
+            android:id="@+id/arrowLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="5.0dip"
+            android:src="@drawable/arrow_left"
+            android:visibility="invisible"
+        />
+        <ImageView 
+            android:id="@+id/arrowRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5.0dip"
+            android:src="@drawable/arrow_right"
+            android:visibility="invisible"
+        />
+        <ProgressBar 
+	        android:id="@+id/progress" 
+	        android:visibility="invisible" 
+	        android:layout_width="wrap_content" 
+	        android:layout_height="wrap_content" 
+            android:layout_centerInParent="true"
+	        style="?android:progressBarStyle" />
+        <LinearLayout 
+            android:id="@+id/tryBtn"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" 
+            >
+            <ImageView 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/refresh"
+                />
+            <TextView 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/reload_again"
+                android:layout_gravity="center_vertical"
+                android:textColor="@android:color/white"
+                />
+        </LinearLayout>
+    </RelativeLayout>    
+    <LinearLayout android:orientation="horizontal"
+        android:layout_width="fill_parent" 
+        android:layout_height="wrap_content"
+        >
+        <Button android:textSize="13.0sp" 
+            android:textColor="#ffffffff" 
+            android:id="@+id/save" 
+            android:background="@drawable/button" 
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" 
+            android:text="@string/download" android:layout_weight="1.0" />
+        <Button android:textSize="13.0sp" 
+            android:textColor="#ffffffff" 
+            android:id="@+id/share" 
+            android:background="@drawable/button" 
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" 
+            android:text="@string/share"
+            android:layout_weight="1.0" />
+        <Button android:textSize="13.0sp" 
+            android:textColor="#ffffffff" 
+            android:id="@+id/favorite" 
+            android:background="@drawable/button" 
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" 
+            android:text="@string/favorite" android:layout_weight="1.0" />
+    </LinearLayout>
+    <LinearLayout android:background="@drawable/top_bg" 
+        android:layout_width="fill_parent" 
+        android:layout_height="10.0dip" />
+    <LinearLayout android:id="@+id/ads" 
+        android:background="@drawable/top_bg" 
+        android:layout_width="fill_parent" 
+        android:layout_height="50.0dip" >
+          <net.youmi.android.AdView
+           android:id="@+id/adView"  
+           android:layout_width="fill_parent"  
+           android:layout_height="wrap_content"
+           umadsdk:textColor="#ffffff"    
+           umadsdk:backgroundColor="#4076AA"
+           umadsdk:backgroundTransparent="255"
+          /> 
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="34.0dip"
+            android:background="@drawable/top_bg"
+            android:orientation="horizontal"
+            android:paddingLeft="8.0dip"
+            android:paddingRight="4.0dip" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/topic"
+                android:textColor="#ffffffff"
+                android:textSize="13.0sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="5.0dip"
+                android:paddingRight="5.0dip"
+                android:src="@drawable/bullet_orange" />
+
+            <TextView
+                android:id="@+id/count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="0"
+                android:textColor="#ffffffff"
+                android:textSize="13.0sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/count_topics"
+                android:textColor="#ffffffff"
+                android:textSize="13.0sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="34.0dip"
+            android:layout_alignParentRight="true"
+            android:orientation="horizontal"
+            android:visibility="gone" >
+
+            <LinearLayout
+                android:id="@+id/topicListTV"
+                android:layout_width="75.0dip"
+                android:layout_height="34.0dip"
+                android:background="@drawable/buy_tab_bg"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20.0dip"
+                    android:src="@drawable/buy_no_icon_selected" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="未开通"
+                    android:textColor="#ffF87800"
+                    android:textSize="13.0sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/buyListTV"
+                android:layout_width="75.0dip"
+                android:layout_height="34.0dip"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20.0dip"
+                    android:src="@drawable/buy_yes_icon_normal" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="已开通"
+                    android:textColor="#ffA2F2A2"
+                    android:textSize="13.0sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/container_bg" >
+
+        <ExpandableListView
+            android:id="@+id/myEpListView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+        </ExpandableListView>
+
+        <ProgressBar
+            android:id="@+id/progress"
+            style="?android:progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="invisible" />
+    </RelativeLayout>
+
+</LinearLayout>

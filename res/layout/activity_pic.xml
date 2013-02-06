@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+    <HorizontalScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:fillViewport="true" >
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="center" />
+    </HorizontalScrollView>
+    <LinearLayout
+        android:id="@+id/btnsLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" 
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        >
+        <ImageView
+            android:id="@+id/setWallpaper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0" 
+            android:src="@drawable/wallpaper_set"
+            />
+        <ImageView
+            android:id="@+id/shareWallpaper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0" 
+            android:src="@drawable/wallpaper_share"
+            />
+        <ImageView
+            android:id="@+id/deleteWallpaper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0" 
+            android:src="@drawable/wallpaper_delete"
+            />
+        <!-- <ImageView
+            android:id="@+id/timeWallpaper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0" 
+            android:src="@drawable/wallpaper_time"
+            /> -->
+    </LinearLayout>
+</RelativeLayout>

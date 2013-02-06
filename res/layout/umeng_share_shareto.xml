@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/shareto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" >
+
+    <LinearLayout
+        android:layout_width="304dip"
+        android:layout_height="wrap_content"
+        android:background="@drawable/umeng_share_shareto" >
+
+        <LinearLayout
+            android:layout_width="286dip"
+            android:layout_height="wrap_content"
+            android:layout_margin="9dip"
+            android:background="@drawable/umeng_share_shareto_stroke"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/shareto_top"
+                android:layout_width="284dip"
+                android:layout_height="42dip"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/umeng_share_shareto_title"
+                android:gravity="center_vertical"
+                android:paddingLeft="20dip"
+                android:text="@string/umeng_share_shareto_top"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp" >
+            </TextView>
+
+            <RelativeLayout
+                android:id="@+id/btnToTenc"
+                android:layout_width="282dip"
+                android:layout_height="64dip"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/umeng_share_shareitem"
+                android:clickable="true" >
+
+                <ImageView
+                    android:id="@+id/btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="19dip"
+                    android:background="@drawable/umeng_share_logo_tenc" >
+                </ImageView>
+
+                <TextView
+                    android:id="@+id/tvtenc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="48dip"
+                    android:layout_toRightOf="@+id/btn"
+                    android:text="@string/umeng_share_shareto_tenc"
+                    android:textColor="#3e3e3e"
+                    android:textSize="20sp"
+                    android:textStyle="bold" >
+                </TextView>
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="278dip"
+                android:layout_height="1dip"
+                android:layout_gravity="center_horizontal"
+                android:background="#b2b2b2" >
+            </ImageView>
+
+            <RelativeLayout
+                android:id="@+id/btnToSina"
+                android:layout_width="282dip"
+                android:layout_height="64dip"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/umeng_share_shareitem"
+                android:fadingEdge="horizontal" >
+
+                <ImageView
+                    android:id="@+id/btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="19dip"
+                    android:background="@drawable/umeng_share_logo_sina" >
+                </ImageView>
+
+                <TextView
+                    android:id="@+id/tvsina"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="48dip"
+                    android:layout_toRightOf="@+id/btn"
+                    android:text="@string/umeng_share_shareto_sina"
+                    android:textColor="#3e3e3e"
+                    android:textSize="20sp"
+                    android:textStyle="bold" >
+                </TextView>
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="278dip"
+                android:layout_height="1dip"
+                android:layout_gravity="center_horizontal"
+                android:background="#b2b2b2" >
+            </ImageView>
+
+            <RelativeLayout
+                android:id="@+id/btnToRenR"
+                android:layout_width="282dip"
+                android:layout_height="64dip"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/umeng_share_shareitem"
+                android:clickable="true" >
+
+                <ImageView
+                    android:id="@+id/btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="19dip"
+                    android:background="@drawable/umeng_share_logo_renren" >
+                </ImageView>
+
+                <TextView
+                    android:id="@+id/tvrenr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="48dip"
+                    android:layout_toRightOf="@+id/btn"
+                    android:text="@string/umeng_share_shareto_renr"
+                    android:textColor="#3e3e3e"
+                    android:textSize="20sp"
+                    android:textStyle="bold" >
+                </TextView>
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="278dip"
+                android:layout_height="1dip"
+                android:layout_gravity="center_horizontal"
+                android:background="#b2b2b2" >
+            </ImageView>
+
+            <RelativeLayout
+                android:id="@+id/btnToOthers"
+                android:layout_width="282dip"
+                android:layout_height="64dip"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/umeng_share_shareitem"
+                android:clickable="true" >
+
+                <TextView
+                    android:id="@+id/tvothers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="48dip"
+                    android:layout_toRightOf="@+id/btn"
+                    android:text="@string/umeng_share_shareto_others"
+                    android:textColor="#3e3e3e"
+                    android:textSize="20sp"
+                    android:textStyle="bold" >
+                </TextView>
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

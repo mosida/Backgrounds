@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FrameLayout android:background="@drawable/header_bg" 
+    android:layout_width="fill_parent" 
+    android:layout_height="44.0dip"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <Button android:textSize="13.0sp" 
+       android:gravity="center" 
+        android:layout_gravity="left|center" 
+        android:id="@+id/back" 
+        android:visibility="invisible" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:background="@drawable/header_btn_back"
+        /> 
+    <TextView android:layout_gravity="center" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:text="@string/app_name" 
+        android:textColor="#ff002b00"
+        android:textSize="18.0sp"
+        />
+    <Button android:textSize="13.0sp" 
+        android:textColor="#ffffffff" 
+        android:gravity="center"
+        android:layout_gravity="right|center" 
+        android:id="@+id/update" 
+        android:background="@drawable/header_button"
+        android:visibility="invisible" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:layout_marginTop="4.0dip"
+        android:layout_marginBottom="5.0dip" 
+        android:layout_marginRight="6.0dip"
+        android:text="@string/update" />
+</FrameLayout>

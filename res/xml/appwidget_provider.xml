@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minWidth="60dp"
+    android:minHeight="30dp"
+    android:updatePeriodMillis="86400000"
+    android:initialLayout="@layout/appwidget_provider"
+    android:configure="net.hzbn.soft.appwidget.AppWidgetConfigure"
+    >
+</appwidget-provider>
+ -->
+ <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minWidth="75dp"
+    android:minHeight="75dp"
+    android:updatePeriodMillis="864000"
+    android:initialLayout="@layout/appwidget_provider"
+    >
+</appwidget-provider>
+<!-- 86400000 is the value of AlarmManager.INTERVAL_DAY - or once per day. -->
