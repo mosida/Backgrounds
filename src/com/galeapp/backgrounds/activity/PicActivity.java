@@ -25,8 +25,12 @@ import android.widget.Toast;
 import com.galeapp.backgrounds.R;
 import com.galeapp.utils.FileManager;
 import com.umeng.analytics.MobclickAgent;
-import com.umeng.api.sns.UMSNSException;
-import com.umeng.api.sns.UMSnsService;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.bean.ShareImage;
+import com.umeng.socialize.bean.SocializeConfig;
+import com.umeng.socialize.controller.RequestType;
+import com.umeng.socialize.controller.UMServiceFactory;
+import com.umeng.socialize.controller.UMSocialService;
 
 public class PicActivity extends Activity {
 
@@ -37,7 +41,7 @@ public class PicActivity extends Activity {
 
 	LinearLayout btnsLayout;
 	ImageView setWallpaper;
-	ImageView shareWallpaper;
+//	ImageView shareWallpaper;
 	ImageView deleteWallpaper;
 	// ImageView timeWallpaper;
 	// 分享
@@ -60,7 +64,7 @@ public class PicActivity extends Activity {
 		picImageView = (ImageView) findViewById(R.id.image);
 		btnsLayout = (LinearLayout) findViewById(R.id.btnsLayout);
 		setWallpaper = (ImageView) findViewById(R.id.setWallpaper);
-		shareWallpaper = (ImageView) findViewById(R.id.shareWallpaper);
+//		shareWallpaper = (ImageView) findViewById(R.id.shareWallpaper);
 		deleteWallpaper = (ImageView) findViewById(R.id.deleteWallpaper);
 		// timeWallpaper = (ImageView) findViewById(R.id.timeWallpaper);
 
@@ -104,33 +108,61 @@ public class PicActivity extends Activity {
 				startActivity(i);
 			}
 		});
-		shareWallpaper.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				progressDialog = new ProgressDialog(PicActivity.this);
-				progressDialog
-						.setMessage(getString(R.string.please_wait_for_processing));
-				progressDialog.show();
-				Thread thread = new Thread() {
-					@Override
-					public void run() {
-						shareBitmap = BitmapFactory.decodeFile(FileManager
-								.getSaveFile(imageName));
-						if (shareBitmap == null) {
-							handler.sendEmptyMessage(-1);
-							return;
-						}
-						shareBytes = FileManager.Bitmap2Bytes(shareBitmap);
-						if (shareBytes == null || shareBytes.length == 0) {
-							handler.sendEmptyMessage(-1);
-							return;
-						}
-						handler.sendEmptyMessage(1);
-					}
-				};
-				thread.start();
-			}
-		});
+//		shareWallpaper.setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+////				progressDialog = new ProgressDialog(PicActivity.this);
+////				progressDialog
+////						.setMessage(getString(R.string.please_wait_for_processing));
+////				progressDialog.show();
+////				Thread thread = new Thread() {
+////					@Override
+////					public void run() {
+////						shareBitmap = BitmapFactory.decodeFile(FileManager
+////								.getSaveFile(imageName));
+////						if (shareBitmap == null) {
+////							handler.sendEmptyMessage(-1);
+////							return;
+////						}
+////						shareBytes = FileManager.Bitmap2Bytes(shareBitmap);
+////						if (shareBytes == null || shareBytes.length == 0) {
+////							handler.sendEmptyMessage(-1);
+////							return;
+////						}
+////						handler.sendEmptyMessage(1);
+////					}
+////				};
+////				thread.start();
+//				if(shareBitmap==null){
+////					handler.sendEmptyMessage(-1);
+//					return;
+//				}
+//				
+//				//des 参数对应actionbar 
+//				UMSocialService controller = UMServiceFactory.getUMSocialService("分享图片", RequestType.SOCIAL);
+//				//设置默认分享文字
+//				controller.setShareContent("#最壁纸黑莓版# 每次打开手机看到美美的壁纸，一天的心情都会亮起来，分享一下我喜欢的图片~");
+//
+//				//设置分享图片(支持4种方式),一个ActionBar最多只能选择一种
+//				//注意：预设图片构造会对序列化图片对象，不可以马上使用。
+//				/*//Resource Id
+//				controller.setShareImage(new ShareImage(mContext, R.drawable.testimg));
+//				//File
+//				controller.setShareImage(new ShareImage(new File("mnt/sdcard/2mb.jpg")));
+//				//Bitmap
+//				controller.setShareImage(new ShareImage(mContext, bitmap));*/
+//				//Raw
+//				controller.setShareImage(new ShareImage(context.getApplicationContext(), shareBitmap));
+//
+//				//配置分享平台，默认全部
+//				SocializeConfig socializeConfig = new SocializeConfig();
+//				socializeConfig.setPlatforms(SHARE_MEDIA.TENCENT,SHARE_MEDIA.SINA,SHARE_MEDIA.RENREN);//设置分享平台
+//				controller.setConfig(socializeConfig);//该配置只作用于单个ActionBar（相同des参数描述）
+//
+//				//配置全局Congfig（作用于所有AcitonBar，View级别集成接口）
+//				//controller.setGlobalConfig(socializeConfig)
+//			}
+//		});
 		deleteWallpaper.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -200,11 +232,12 @@ public class PicActivity extends Activity {
 		public void handleMessage(Message msg) {
 			if (msg.what == 1) {
 				progressDialog.dismiss();
-				HashMap<String, String> map = new HashMap<String, String>();
-				map.put("test", "test");
 				try {
-					UMSnsService.share(context.getApplicationContext(),
-							shareBytes, map, null);
+//					UMSnsService.share(context.getApplicationContext(),
+//							shareBytes, map, null);
+//			        UMServiceFactory.shareTo(context.getApplicationContext(), SHARE_MEDIA.SINA, shareBytes, map, null);
+
+					
 				} catch (Throwable e) {
 					e.printStackTrace();
 				}

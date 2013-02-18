@@ -62,15 +62,15 @@ public class Constants {
 	// "http://www.galeapp.com:81/piwigo/mobi/test.php?type=";
 
 	/****** 积分墙 *******/
-	public final static String APPWALL = "appWall";
-	public final static String APPWALL7 = "appWall4";
-	public final static String APPWALL_TOPIC = "topic_";
+//	public final static String APPWALL = "appWall";
+//	public final static String APPWALL7 = "appWall4";
+//	public final static String APPWALL_TOPIC = "topic_";
 	// 被爆菊
-	public final static String YOUMI_ID = "38285e040fc5d559";
-	public final static String YOUMI_SEC = "dd2c7438e22a4eae";
+//	public final static String YOUMI_ID = "38285e040fc5d559";
+//	public final static String YOUMI_SEC = "dd2c7438e22a4eae";
 
 	public final static String LAST_LOGIN = "lastLoginTime";
-	public final static int DOWNLOADE_PIC_SCORE = 5;
+//	public final static int DOWNLOADE_PIC_SCORE = 5;
 
 	// 图库
 	// 文件名

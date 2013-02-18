@@ -24,7 +24,7 @@
         android:paddingLeft="5.0dip"
         android:layout_toRightOf="@+id/subTopic"
     />
-    <TextView 
+    <!-- <TextView 
         android:id="@+id/subTopicScore"
         android:layout_width="wrap_content"
         android:textSize="15.0sp"
@@ -32,5 +32,5 @@
         android:layout_alignParentRight="true"
         android:gravity="center_vertical"
         android:layout_marginRight="5.0dip"
-    />
+    /> -->
 </RelativeLayout>

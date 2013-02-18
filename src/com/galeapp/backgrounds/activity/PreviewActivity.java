@@ -2,14 +2,8 @@ package com.galeapp.backgrounds.activity;
 
 import java.io.File;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-
-import net.umipay.android.PointsNotifier;
-import net.umipay.android.PointsResult;
-import net.umipay.android.SDKPointsManager;
-import net.umipay.android.UmipaySDKManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -54,10 +48,14 @@ import com.galeapp.backgrounds.receiver.WallpaperReceiver;
 import com.galeapp.utils.FileManager;
 import com.galeapp.utils.HttpDownloader;
 import com.umeng.analytics.MobclickAgent;
-import com.umeng.api.sns.UMSnsService;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.bean.ShareImage;
+import com.umeng.socialize.bean.SocializeConfig;
+import com.umeng.socialize.controller.RequestType;
+import com.umeng.socialize.controller.UMServiceFactory;
+import com.umeng.socialize.controller.UMSocialService;
 
-public class PreviewActivity extends Activity implements OnTouchListener,
-		PointsNotifier {
+public class PreviewActivity extends Activity implements OnTouchListener {
 
 	public static final String TAG = "PreviewActivity";
 
@@ -75,7 +73,7 @@ public class PreviewActivity extends Activity implements OnTouchListener,
 	Button setContactBtn;
 	Button setFavBtn;
 	Button saveBtn;
-	Button shareBtn;
+//	Button shareBtn;
 
 	Button backBtn;
 
@@ -93,9 +91,6 @@ public class PreviewActivity extends Activity implements OnTouchListener,
 
 	SharedPreferences settingSP;
 	SharedPreferences sharedPreferences;
-	/******** 积分墙 *********/
-	private int appWallScore = 0;
-	String appWallSwitch;
 
 	Context context;
 
@@ -115,32 +110,6 @@ public class PreviewActivity extends Activity implements OnTouchListener,
 
 		setContentView(R.layout.activity_preview);
 		setViews();
-
-		// AVLSKDHFKSDHFK.init(PreviewActivity.this, Constants.YOUMI_ID,
-		// Constants.YOUMI_SEC, false);
-		// appWallScore = AVLSKDHFKSDHFK.getPoints(getApplicationContext());
-		// SDKPointsManager.AsyncQueryPoints(this, 0, this, 0);
-
-		// 默认不开通
-		sharedPreferences = getSharedPreferences(Constants.APPWALL,
-				MODE_PRIVATE);
-		appWallSwitch = sharedPreferences.getString(Constants.APPWALL7, "off");
-		if (appWallSwitch.equals("off")) {
-			// 不开通的情况下请求在线参数是否已经开通了
-			MobclickAgent.updateOnlineConfig(this);
-			appWallSwitch = MobclickAgent.getConfigParams(this,
-					Constants.APPWALL7);
-			Log.i(TAG,
-					"appWallSwitch from umeng:"
-							+ MobclickAgent.getConfigParams(this,
-									Constants.APPWALL7));
-			// 如果开通了，修改参数
-			if (appWallSwitch.equals("on")) {
-				Editor editor = sharedPreferences.edit();
-				editor.putString(Constants.APPWALL7, "on");
-				editor.commit();
-			}
-		}
 
 		setListeners();
 
@@ -203,7 +172,7 @@ public class PreviewActivity extends Activity implements OnTouchListener,
 		setContactBtn = (Button) findViewById(R.id.setContact);
 
 		saveBtn = (Button) findViewById(R.id.save);
-		shareBtn = (Button) findViewById(R.id.share);
+//		shareBtn = (Button) findViewById(R.id.share);
 
 		backBtn = (Button) findViewById(R.id.back);
 		backBtn.setVisibility(View.VISIBLE);
@@ -244,227 +213,113 @@ public class PreviewActivity extends Activity implements OnTouchListener,
 						toast.show();
 						return;
 					}
-					// 假如有积分墙服务
-					if (appWallSwitch != null && appWallSwitch.equals("on")) {
-						// 判断是否有积分下载图片
 
-						// 还没登录
-//						if (!UmipaySDKManager
-//								.isUmipayAccountLogined(PreviewActivity.this)) {
-//							AlertDialog umiPayDlg = new AlertDialog.Builder(
-//									PreviewActivity.this)
-//									.setIcon(android.R.drawable.ic_dialog_alert)
-//									.setTitle(R.string.tips)
-//									.setMessage(
-//											"下载此高清图需要"
-//													+ Constants.DOWNLOADE_PIC_SCORE
-//													+ "积分哦，请先登录 米掌柜 领取积分吧！")
-//									.setPositiveButton(
-//											R.string.appwall_get_by_free,
-//											new DialogInterface.OnClickListener() {
-//												@Override
-//												public void onClick(
-//														DialogInterface dialog,
-//														int which) {
-//													UmipaySDKManager
-//															.requestUmipayAccountLogin(PreviewActivity.this);
-//												}
-//											})
-//									.setNegativeButton(R.string.cancel, null)
-//									.create();
-//							umiPayDlg.show();
-//						}// 不够积分
-//						else 
-						    if (appWallScore < Constants.DOWNLOADE_PIC_SCORE) {
-							AlertDialog appWallDlg = new AlertDialog.Builder(
-									PreviewActivity.this)
-									.setIcon(android.R.drawable.ic_dialog_alert)
-									.setTitle(R.string.tips)
-									.setMessage(
-											"您当前的积分:"
-													+ appWallScore
-													+ ",需要"
-													+ (Constants.DOWNLOADE_PIC_SCORE - appWallScore)
-													+ "个积分下载高清图片,马上免费获取积分?")
-									.setPositiveButton(
-											R.string.appwall_get_by_free,
-											new DialogInterface.OnClickListener() {
-												@Override
-												public void onClick(
-														DialogInterface dialog,
-														int which) {
-													// AVLSKDHFKSDHFK.showAppOffers(PreviewActivity.this);
-													// YoumiOffersManager.showYoumiOffers(PreviewActivity.this,
-													// rewardOffers_Requester);
-													// 请求使用米掌柜的米宝兑换为金币
-													UmipaySDKManager
-															.requestPayment(
-																	PreviewActivity.this,
-																	0);
-												}
-											})
-									.setNegativeButton(R.string.cancel, null)
-									.create();
-							appWallDlg.show();
-						} else {// 积分足够，询问是否扣除积分购买图片
-							AlertDialog appWallDlg = new AlertDialog.Builder(
-									PreviewActivity.this)
-									.setIcon(android.R.drawable.ic_dialog_alert)
-									.setTitle(R.string.tips)
-									.setMessage(
-											"您当前的积分:"
-													+ appWallScore
-													+ ",需要"
-													+ Constants.DOWNLOADE_PIC_SCORE
-													+ "个积分下载高清图片，马上下载?")
-									.setPositiveButton(
-											R.string.download,
-											new DialogInterface.OnClickListener() {
-												@Override
-												public void onClick(
-														DialogInterface dialog,
-														int which) {
-													// 开始下载高清图片
-													progressDialog = new ProgressDialog(
-															PreviewActivity.this);
-													progressDialog
-															.setMessage(getString(R.string.please_wait_for_downloading));
-													progressDialog.show();
-													Thread t = new Thread() {
-														@Override
-														public void run() {
-															if (HttpDownloader
-																	.isConnected(getApplicationContext()) != true) {
-																dlHandler
-																		.sendEmptyMessage(-5);
-															} else {
-																String downloadStr = Constants.RESULT_URL
-																		+ imageId;
-																HttpDownloader
-																		.downloadImageToTempFile(
-																				downloadStr,
-																				FileManager
-																						.getSaveFile(imageId));
-																dlHandler
-																		.sendEmptyMessage(5);
-															}
-														}
-													};
-													t.start();
-												}
-											})
-									.setNegativeButton(R.string.cancel, null)
-									.create();
-							appWallDlg.show();
-						}
-					} else {
-						// 开始下载高清图片
-						progressDialog = new ProgressDialog(
-								PreviewActivity.this);
-						progressDialog
-								.setMessage(getString(R.string.please_wait_for_downloading));
-						progressDialog.show();
-						Thread t = new Thread() {
-							@Override
-							public void run() {
-								if (HttpDownloader
-										.isConnected(getApplicationContext()) != true) {
-									dlHandler.sendEmptyMessage(-1);
-								} else {
-									String downloadStr = Constants.RESULT_URL
-											+ imageId;
-									HttpDownloader.downloadImageToTempFile(
-											downloadStr,
-											FileManager.getSaveFile(imageId));
-									dlHandler.sendEmptyMessage(2);
-								}
-							}
-						};
-						t.start();
-					}
-				}
-			}
-		});
-
-		// 分享按钮
-		shareBtn.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// Intent intent = new Intent(Intent.ACTION_SEND);
-				// intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" +
-				// FileManager.getPreviewPath()));
-				// intent.setType("image/jpeg");
-				// startActivity(intent);
-
-				// 开始下载高清图片
-				progressDialog = new ProgressDialog(PreviewActivity.this);
-				progressDialog
-						.setMessage(getString(R.string.please_wait_for_downloading));
-				progressDialog.show();
-
-				Thread t = new Thread() {
-					@Override
-					public void run() {
-						// 检查是否有足够容量下载高清图
-						if (FileManager.getSdcardAvailableStore() < 1024) {
-							dlHandler.sendEmptyMessage(-4);
-							return;
-						}
-						// 判断是否曾经下载过
-						if (FileManager.isSaveFileExited(imageId)) {
-							shareBitmap = BitmapFactory.decodeFile(FileManager
-									.getSaveFile(imageId));
-							if (shareBitmap == null) {
-								FileManager.deleteFile(FileManager
-										.getSaveFile(imageId));
-								dlHandler.sendEmptyMessage(-3);
-								return;
-							}
-							shareBytes = FileManager.Bitmap2Bytes(shareBitmap);
-							dlHandler.sendEmptyMessage(4);
-							return;
-						} else {
-							// 判断是否有下载到result过
-							if (info != null) {
-								File file = new File(FileManager
-										.getResultPath());
-								int size = (int) (file.length() / 1024);
-								if (size == info.getIntSize()) {
-									shareBitmap = BitmapFactory
-											.decodeFile(FileManager
-													.getResultPath());
-									shareBytes = FileManager
-											.Bitmap2Bytes(shareBitmap);
-									dlHandler.sendEmptyMessage(4);
-									return;
-								}
-							}
+					// 开始下载高清图片
+					progressDialog = new ProgressDialog(PreviewActivity.this);
+					progressDialog
+							.setMessage(getString(R.string.please_wait_for_downloading));
+					progressDialog.show();
+					Thread t = new Thread() {
+						@Override
+						public void run() {
 							if (HttpDownloader
 									.isConnected(getApplicationContext()) != true) {
 								dlHandler.sendEmptyMessage(-1);
 							} else {
+								String downloadStr = Constants.RESULT_URL
+										+ imageId;
 								HttpDownloader.downloadImageToTempFile(
-										Constants.RESULT_URL + imageId,
+										downloadStr,
 										FileManager.getSaveFile(imageId));
-								shareBitmap = BitmapFactory
-										.decodeFile(FileManager.getResultPath());
-								if (shareBitmap == null) {
-									dlHandler.sendEmptyMessage(-3);
-									return;
-								} else {
-									shareBytes = FileManager
-											.Bitmap2Bytes(shareBitmap);
-									shareBitmap.recycle();
-								}
-								dlHandler.sendEmptyMessage(4);
+								dlHandler.sendEmptyMessage(2);
 							}
 						}
+					};
+					t.start();
+				}
 
-					}
-				};
-				t.start();
 			}
 		});
+
+		// 分享按钮
+//		shareBtn.setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				// Intent intent = new Intent(Intent.ACTION_SEND);
+//				// intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" +
+//				// FileManager.getPreviewPath()));
+//				// intent.setType("image/jpeg");
+//				// startActivity(intent);
+//
+//				// 开始下载高清图片
+//				progressDialog = new ProgressDialog(PreviewActivity.this);
+//				progressDialog
+//						.setMessage(getString(R.string.please_wait_for_downloading));
+//				progressDialog.show();
+//
+//				Thread t = new Thread() {
+//					@Override
+//					public void run() {
+//						// 检查是否有足够容量下载高清图
+//						if (FileManager.getSdcardAvailableStore() < 1024) {
+//							dlHandler.sendEmptyMessage(-4);
+//							return;
+//						}
+//						// 判断是否曾经下载过
+//						if (FileManager.isSaveFileExited(imageId)) {
+//							shareBitmap = BitmapFactory.decodeFile(FileManager
+//									.getSaveFile(imageId));
+//							if (shareBitmap == null) {
+//								FileManager.deleteFile(FileManager
+//										.getSaveFile(imageId));
+//								dlHandler.sendEmptyMessage(-3);
+//								return;
+//							}
+//							shareBytes = FileManager.Bitmap2Bytes(shareBitmap);
+//							dlHandler.sendEmptyMessage(4);
+//							return;
+//						} else {
+//							// 判断是否有下载到result过
+//							if (info != null) {
+//								File file = new File(FileManager
+//										.getResultPath());
+//								int size = (int) (file.length() / 1024);
+//								if (size == info.getIntSize()) {
+//									shareBitmap = BitmapFactory
+//											.decodeFile(FileManager
+//													.getResultPath());
+//									shareBytes = FileManager
+//											.Bitmap2Bytes(shareBitmap);
+//									dlHandler.sendEmptyMessage(4);
+//									return;
+//								}
+//							}
+//							if (HttpDownloader
+//									.isConnected(getApplicationContext()) != true) {
+//								dlHandler.sendEmptyMessage(-1);
+//							} else {
+//								HttpDownloader.downloadImageToTempFile(
+//										Constants.RESULT_URL + imageId,
+//										FileManager.getSaveFile(imageId));
+//								shareBitmap = BitmapFactory
+//										.decodeFile(FileManager.getResultPath());
+//								if (shareBitmap == null) {
+//									dlHandler.sendEmptyMessage(-3);
+//									return;
+//								} else {
+//									shareBytes = FileManager
+//											.Bitmap2Bytes(shareBitmap);
+//									shareBitmap.recycle();
+//								}
+//								dlHandler.sendEmptyMessage(4);
+//							}
+//						}
+//
+//					}
+//				};
+//				t.start();
+//			}
+//		});
 
 		// 返回按钮
 		backBtn.setOnClickListener(new OnClickListener() {
@@ -729,16 +584,44 @@ public class PreviewActivity extends Activity implements OnTouchListener,
 				progressDialog
 						.setMessage(getString(R.string.read_data_from_saved_pic));
 			} else if (msg.what == 4) {
-				progressDialog.dismiss();
-				HashMap<String, String> map = new HashMap<String, String>();
-				map.put("test", "test");
-
-				try {
-					UMSnsService.share(context.getApplicationContext(),
-							shareBytes, map, null);
-				} catch (Throwable e) {
-					e.printStackTrace();
+//				progressDialog.dismiss();
+//				HashMap<String, String> map = new HashMap<String, String>();
+//				map.put("test", "test");
+//
+//				try {
+//					UMSnsService.share(context.getApplicationContext(),
+//							shareBytes, map, null);
+//				} catch (Throwable e) {
+//					e.printStackTrace();
+//				}
+				if(shareBitmap==null){
+//					handler.sendEmptyMessage(-1);
+					return;
 				}
+				
+				//des 参数对应actionbar 
+				UMSocialService controller = UMServiceFactory.getUMSocialService("分享图片", RequestType.SOCIAL);
+				//设置默认分享文字
+				controller.setShareContent("#最壁纸黑莓版# 每次打开手机看到美美的壁纸，一天的心情都会亮起来，分享一下我喜欢的图片~");
+
+				//设置分享图片(支持4种方式),一个ActionBar最多只能选择一种
+				//注意：预设图片构造会对序列化图片对象，不可以马上使用。
+				/*//Resource Id
+				controller.setShareImage(new ShareImage(mContext, R.drawable.testimg));
+				//File
+				controller.setShareImage(new ShareImage(new File("mnt/sdcard/2mb.jpg")));
+				//Bitmap
+				controller.setShareImage(new ShareImage(mContext, bitmap));*/
+				//Raw
+				controller.setShareImage(new ShareImage(context.getApplicationContext(), shareBitmap));
+
+				//配置分享平台，默认全部
+				SocializeConfig socializeConfig = new SocializeConfig();
+				socializeConfig.setPlatforms(SHARE_MEDIA.TENCENT,SHARE_MEDIA.SINA,SHARE_MEDIA.RENREN);//设置分享平台
+				controller.setConfig(socializeConfig);//该配置只作用于单个ActionBar（相同des参数描述）
+
+				//配置全局Congfig（作用于所有AcitonBar，View级别集成接口）
+				//controller.setGlobalConfig(socializeConfig)
 				// 统计分享文件次数
 				MobclickAgent.onEvent(PreviewActivity.this,
 						getString(R.string.share));
@@ -750,8 +633,7 @@ public class PreviewActivity extends Activity implements OnTouchListener,
 				// Constants.DOWNLOADE_PIC_SCORE);
 				// appWallScore =
 				// AVLSKDHFKSDHFK.getPoints(PreviewActivity.this);
-				SDKPointsManager.AsyncSpendPoints(PreviewActivity.this, 0,
-						PreviewActivity.this, 0, Constants.DOWNLOADE_PIC_SCORE);
+
 				// YoumiPointsManager.queryPoints(PreviewActivity.this);
 				Toast toast = Toast.makeText(getApplicationContext(),
 						R.string.image_saved_already_for_score,
@@ -884,11 +766,7 @@ public class PreviewActivity extends Activity implements OnTouchListener,
 	public void onResume() {
 		super.onResume();
 		// appWallScore = AVLSKDHFKSDHFK.getPoints(this);
-		if (!UmipaySDKManager.isUmipayAccountLogined(this)) {
 
-		} else {
-			SDKPointsManager.AsyncQueryPoints(this, 0, this, 0);
-		}
 		MobclickAgent.onResume(this);
 	}
 
@@ -960,89 +838,4 @@ public class PreviewActivity extends Activity implements OnTouchListener,
 		}
 	}
 
-	@Override
-	public void onPointsResult(int requestCode, PointsResult result) {
-		// TODO Auto-generated method stub
-		try {
-
-			// 米掌柜SDK支持有米服务器虚拟货币托管服务，有别于有米积分墙的本地积分托管，使用米掌柜SDK的虚拟货币账户将会保存到有米服务器中。
-			// 虚拟货币账户标识由[米掌柜账户ID+AppID+VID]组成，因此必须要求用户在已经登录了米掌柜的情况下使用虚拟货币账户的操作。
-			// 每个虚拟货币账户都有一个编号: VID (目前只支持一套VID为0的默认虚拟货币账户，后续会开放对多套虚拟货币的支持)。
-			// 要启用虚拟货币账户，必须在有米主站开发者控制面板中启用米掌柜业务，并且设置虚拟货币的单位名称及汇率。
-
-			// ---
-			// Demo中假设虚拟货币单位为"金币",VID为0
-
-			String demoCurrencyName = "金币";
-
-			StringBuilder msg = new StringBuilder();
-
-			if (result != null) {
-
-				switch (result.getOptionsType()) {// 获取回调的操作值
-				case PointsResult.TYPE_OPTION_QUERY_POINTS:// 查询虚拟货币余额
-					msg.append("查询").append(demoCurrencyName);
-					break;
-				case PointsResult.TYPE_OPTION_AWARD_POINTS:// 奖励给用户一定数额的虚拟货币
-					msg.append("奖励").append(demoCurrencyName);
-					break;
-				case PointsResult.TYPE_OPTION_SPEND_POINTS:// 消费一定数额的虚拟货币
-					msg.append("消费").append(demoCurrencyName);
-					break;
-				default:
-					break;
-				}
-
-				switch (result.getResultCode()) {
-				case PointsResult.RESULT_OK:// 操作成功
-					msg.append("操作成功,账户余额为:").append(result.getPoints());
-					appWallScore = result.getPoints();
-					// showPoint(result.getPoints());// 显示虚拟货币余额
-					break;
-				case PointsResult.RESULT_ERROR_UMIPAY_UNLOGIN:// 当前用户未登录米掌柜，虚拟货币账户将不可用，需要用户进行登录
-					msg.append("操作失败，请登录米掌柜");
-					UmipaySDKManager.requestUmipayAccountLogin(this);// 需要请求登录米掌柜账户
-					break;
-				case PointsResult.RESULT_ERROR_NETWORK_UNAVAILABLE:// 当前网络不可用，可提醒用户设置网络
-					msg.append("操作失败，请检查网络设置");
-					break;
-				case PointsResult.RESULT_ERROR_SERVER_EXCEPTION:// 连接虚拟货币服务器失败
-					msg.append("操作失败，连接服务器异常");
-					break;
-				case PointsResult.RESULT_ERROR_ILLEGAL_AMOUNT:// 奖励或消费的虚拟货币值不合法，必须为正整数
-					msg.append("操作失败");
-					break;
-				case PointsResult.RESULT_ERROR_INSUFFICIENT:// 虚拟货币账户余额不足，消费虚拟货币失败
-					msg.append("操作失败，账户余额不足");
-					break;
-				case PointsResult.RESULT_ERROR_VID_INVALID:// 虚拟货币编号无效，目标虚拟货币不存在
-					msg.append("操作失败，账户不存在");
-					break;
-				case PointsResult.RESULT_ERROR_EXCEPTION:// 其他不可预料的异常
-					msg.append("操作失败");
-					break;
-				default:
-					break;
-				}
-
-				// demo:提示操作结果
-				Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-
-				// demo:在界面上显示错误信息
-				if (result.getResultCode() != PointsResult.RESULT_OK) {
-					showErrMsg(result, requestCode, msg.toString());
-				}
-			}
-
-		} catch (Throwable e) {
-			// TODO: handle exception
-		}
-	}
-
-	void showErrMsg(PointsResult result, int requestCode, String msg) {
-		// Toast.makeText(this,
-		// (String.format("%s\n(本次请求码:%d,虚拟货币编号:%d,错误码:%d)", msg,
-		// requestCode, result.getVid(), result.getResultCode())),
-		// Toast.LENGTH_LONG).show();
-	}
 }

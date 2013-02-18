@@ -1,8 +1,5 @@
 package com.galeapp.backgrounds.activity;
 
-import net.umipay.android.UmipaySDKManager;
-import net.youmi.android.AdManager;
-import net.youmi.push.android.YoumiPush;
 import android.app.ActivityGroup;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -63,8 +60,6 @@ public class TabMainActivity extends ActivityGroup {
 	public void onCreate(Bundle savedInstanceState) {
 		Log.i(TAG, "onCreate");
 		super.onCreate(savedInstanceState);
-		AdManager.init(this, Constants.YOUMI_ID, Constants.YOUMI_SEC, 30, false);
-		UmipaySDKManager.initAppSecret(this, Constants.YOUMI_SEC);
 
 		// umeng feedback
 		MobclickAgent.onError(this);
@@ -142,29 +137,7 @@ public class TabMainActivity extends ActivityGroup {
 		navBar.setOnItemClickListener(new ItemClickEvent());// 项目点击事件
 		container = (LinearLayout) findViewById(R.id.Container);
 		SwitchActivity(0);// 默认打开第0页
-
-		SharedPreferences appWall = getSharedPreferences(Constants.APPWALL,
-				MODE_PRIVATE);
-		// 默认不开通
-		String appWallSwitch = appWall.getString(Constants.APPWALL7, "off");
-		if (appWallSwitch.equals("off")) {
-			// 不开通的情况下请求在线参数是否已经开通了
-			MobclickAgent.updateOnlineConfig(this);
-			appWallSwitch = MobclickAgent.getConfigParams(this,
-					Constants.APPWALL7);
-			Log.i(TAG,
-					"appWallSwitch from umeng:"
-							+ MobclickAgent.getConfigParams(this,
-									Constants.APPWALL7));
-			// 如果开通了，修改参数
-			if (appWallSwitch.equals("on")) {
-				Editor editor = settingSP.edit();
-				editor.putString(Constants.APPWALL7, "on");
-				editor.commit();
-			}
-		}
 		
-		YoumiPush.startYoumiPush(this, Constants.YOUMI_ID, Constants.YOUMI_SEC, false);
 	}
 
 	public void mkDir() {

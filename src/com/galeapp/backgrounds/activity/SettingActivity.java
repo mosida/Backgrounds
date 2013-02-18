@@ -1,21 +1,14 @@
 package com.galeapp.backgrounds.activity;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
-import net.umipay.android.PointsNotifier;
-import net.umipay.android.PointsResult;
-import net.umipay.android.SDKPointsManager;
-import net.umipay.android.UmipaySDKManager;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -46,8 +39,7 @@ import com.galeapp.utils.ShortcutCreator;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.fb.UMFeedbackService;
 
-public class SettingActivity extends PreferenceActivity implements
-		PointsNotifier {
+public class SettingActivity extends PreferenceActivity {
 	public static final String TAG = "SettingActivity";
 	ProgressDialog progressDialog;
 
@@ -76,42 +68,13 @@ public class SettingActivity extends PreferenceActivity implements
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 		super.onCreate(savedInstanceState);
-		// 默认不开通
-		SharedPreferences appWall = getSharedPreferences(Constants.APPWALL,
-				MODE_PRIVATE);
-		appWallSwitch = appWall.getString(Constants.APPWALL7, "off");
-		if (appWallSwitch.equals("off")) {
-			addPreferencesFromResource(R.xml.setting);
-		} else {
-			addPreferencesFromResource(R.xml.setting_appwall);
-		}
+
+		addPreferencesFromResource(R.xml.setting);
 		settingSP = getSharedPreferences("settings", Context.MODE_PRIVATE);
 
 		changeTimes = getResources().getStringArray(R.array.change_time);
 		changeTimeValues = getResources().getStringArray(
 				R.array.change_time_value);
-
-		// SDKPointsManager.AsyncQueryPoints(this, 0, this, 0);
-
-		Log.i(TAG, "appWallSwitch:" + appWallSwitch);
-		if (appWallSwitch.equals("off")) {
-			// 不开通的情况下请求在线参数是否已经开通了
-			MobclickAgent.updateOnlineConfig(this);
-			appWallSwitch = MobclickAgent.getConfigParams(this,
-					Constants.APPWALL7);
-			Log.i(TAG,
-					"appWallSwitch from umeng:"
-							+ MobclickAgent.getConfigParams(this,
-									Constants.APPWALL7));
-			// 如果开通了，修改参数
-			if (appWallSwitch.equals("on")) {
-				Editor editor = settingSP.edit();
-				editor.putString(Constants.APPWALL7, "on");
-				editor.commit();
-			}
-		} else {
-			setAppWallPS();
-		}
 
 		setGereralPS();
 		setAboutPS();
@@ -131,16 +94,6 @@ public class SettingActivity extends PreferenceActivity implements
 			getParent().findViewById(R.id.back).setVisibility(View.INVISIBLE);
 		}
 
-		if (!UmipaySDKManager.isUmipayAccountLogined(this)) {
-
-		} else {
-
-			SDKPointsManager.AsyncQueryPoints(this, 0, this, 0);
-			if (myScore != null) {
-				myScore.setTitle(getString(R.string.current_score) + ":"
-						+ appWallScore);
-			}
-		}
 
 		isChanged = settingSP.getBoolean("wallpaperChange", false);
 		wallpaperPS.setChecked(isChanged);
@@ -398,86 +351,6 @@ public class SettingActivity extends PreferenceActivity implements
 				});
 	}
 
-	// 积分墙设置布局
-	public void setAppWallPS() {
-		myScore = (PreferenceScreen) findPreference(getString(R.string.current_score));
-		myScore.setTitle(getString(R.string.current_score) + ":" + appWallScore);
-
-		PreferenceScreen getScore = (PreferenceScreen) findPreference(getString(R.string.appwall_get_by_free));
-		getScore.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-			@Override
-			public boolean onPreferenceClick(Preference arg0) {
-				// AVLSKDHFKSDHFK.showAppOffers(SettingActivity.this);
-				UmipaySDKManager.requestPayment(SettingActivity.this, 0);
-				return false;
-			}
-		});
-
-		PreferenceScreen loginScore = (PreferenceScreen) findPreference(getString(R.string.login_score));
-		loginScore
-				.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-					@Override
-					public boolean onPreferenceClick(Preference arg0) {
-						SharedPreferences appWall = getSharedPreferences(
-								Constants.APPWALL, MODE_PRIVATE);
-						String lastDay = appWall.getString(
-								Constants.LAST_LOGIN, "");
-						SimpleDateFormat sdf = new SimpleDateFormat("dd");
-						String currentDay = sdf.format(new Date());
-
-						if (!lastDay.equals(currentDay)) {// 时间不一样
-							// 拿积分
-							// AVLSKDHFKSDHFK
-							// .spendPoints(SettingActivity.this, -5);
-							if (!UmipaySDKManager
-									.isUmipayAccountLogined(SettingActivity.this)) {
-								AlertDialog umiPayDlg = new AlertDialog.Builder(
-										SettingActivity.this)
-										.setIcon(
-												android.R.drawable.ic_dialog_alert)
-										.setTitle(R.string.tips)
-										.setMessage("请先登录 米掌柜 ,再领取积分吧！")
-										.setPositiveButton(
-												R.string.appwall_get_by_free,
-												new DialogInterface.OnClickListener() {
-													@Override
-													public void onClick(
-															DialogInterface dialog,
-															int which) {
-														UmipaySDKManager
-																.requestUmipayAccountLogin(SettingActivity.this);
-													}
-												})
-										.setNegativeButton(R.string.cancel,
-												null).create();
-								umiPayDlg.show();
-								return true;
-							} else {
-								SDKPointsManager.AsyncAwardPoints(
-										SettingActivity.this, 0,
-										SettingActivity.this, 0, 5);
-							}
-
-							// appWallScore = AVLSKDHFKSDHFK
-							// .getPoints(SettingActivity.this);
-							Editor editor = appWall.edit();
-							editor.putString(Constants.LAST_LOGIN, currentDay);
-							editor.commit();
-							Toast.makeText(SettingActivity.this,
-									R.string.thanks_for_the_login,
-									Toast.LENGTH_LONG).show();
-							MobclickAgent
-									.onEvent(SettingActivity.this, "login");
-						} else {
-							Toast.makeText(SettingActivity.this,
-									R.string.please_get_score_tomorrow,
-									Toast.LENGTH_LONG).show();
-						}
-						return false;
-					}
-				});
-
-	}
 
 	public void setChangeAlarm() {
 		Intent intent = new Intent(SettingActivity.this,
@@ -496,92 +369,4 @@ public class SettingActivity extends PreferenceActivity implements
 
 	}
 
-	@Override
-	public void onPointsResult(int requestCode, PointsResult result) {
-		// TODO Auto-generated method stub
-		try {
-
-			// 米掌柜SDK支持有米服务器虚拟货币托管服务，有别于有米积分墙的本地积分托管，使用米掌柜SDK的虚拟货币账户将会保存到有米服务器中。
-			// 虚拟货币账户标识由[米掌柜账户ID+AppID+VID]组成，因此必须要求用户在已经登录了米掌柜的情况下使用虚拟货币账户的操作。
-			// 每个虚拟货币账户都有一个编号: VID (目前只支持一套VID为0的默认虚拟货币账户，后续会开放对多套虚拟货币的支持)。
-			// 要启用虚拟货币账户，必须在有米主站开发者控制面板中启用米掌柜业务，并且设置虚拟货币的单位名称及汇率。
-
-			// ---
-			// Demo中假设虚拟货币单位为"金币",VID为0
-
-			String demoCurrencyName = "金币";
-
-			StringBuilder msg = new StringBuilder();
-
-			if (result != null) {
-
-				switch (result.getOptionsType()) {// 获取回调的操作值
-				case PointsResult.TYPE_OPTION_QUERY_POINTS:// 查询虚拟货币余额
-					msg.append("查询").append(demoCurrencyName);
-					break;
-				case PointsResult.TYPE_OPTION_AWARD_POINTS:// 奖励给用户一定数额的虚拟货币
-					msg.append("奖励").append(demoCurrencyName);
-					break;
-				case PointsResult.TYPE_OPTION_SPEND_POINTS:// 消费一定数额的虚拟货币
-					msg.append("消费").append(demoCurrencyName);
-					break;
-				default:
-					break;
-				}
-
-				switch (result.getResultCode()) {
-				case PointsResult.RESULT_OK:// 操作成功
-					msg.append("操作成功,账户余额为:").append(result.getPoints());
-					appWallScore = result.getPoints();
-					// showPoint(result.getPoints());// 显示虚拟货币余额
-					myScore.setTitle(getString(R.string.current_score) + ":"
-							+ appWallScore);
-					break;
-				case PointsResult.RESULT_ERROR_UMIPAY_UNLOGIN:// 当前用户未登录米掌柜，虚拟货币账户将不可用，需要用户进行登录
-					msg.append("操作失败，请登录米掌柜");
-					UmipaySDKManager
-							.requestUmipayAccountLogin(SettingActivity.this);// 需要请求登录米掌柜账户
-					break;
-				case PointsResult.RESULT_ERROR_NETWORK_UNAVAILABLE:// 当前网络不可用，可提醒用户设置网络
-					msg.append("操作失败，请检查网络设置");
-					break;
-				case PointsResult.RESULT_ERROR_SERVER_EXCEPTION:// 连接虚拟货币服务器失败
-					msg.append("操作失败，连接服务器异常");
-					break;
-				case PointsResult.RESULT_ERROR_ILLEGAL_AMOUNT:// 奖励或消费的虚拟货币值不合法，必须为正整数
-					msg.append("操作失败");
-					break;
-				case PointsResult.RESULT_ERROR_INSUFFICIENT:// 虚拟货币账户余额不足，消费虚拟货币失败
-					msg.append("操作失败，账户余额不足");
-					break;
-				case PointsResult.RESULT_ERROR_VID_INVALID:// 虚拟货币编号无效，目标虚拟货币不存在
-					msg.append("操作失败，账户不存在");
-					break;
-				case PointsResult.RESULT_ERROR_EXCEPTION:// 其他不可预料的异常
-					msg.append("操作失败");
-					break;
-				default:
-					break;
-				}
-
-				// demo:提示操作结果
-				Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-
-				// demo:在界面上显示错误信息
-				if (result.getResultCode() != PointsResult.RESULT_OK) {
-					showErrMsg(result, requestCode, msg.toString());
-				}
-			}
-
-		} catch (Throwable e) {
-			// TODO: handle exception
-		}
-	}
-
-	void showErrMsg(PointsResult result, int requestCode, String msg) {
-		// Toast.makeText(this,
-		// (String.format("%s\n(本次请求码:%d,虚拟货币编号:%d,错误码:%d)", msg,
-		// requestCode, result.getVid(), result.getResultCode())),
-		// Toast.LENGTH_LONG).show();
-	}
 }

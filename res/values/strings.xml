@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">最壁纸</string>
+    <string name="app_name_bb">Backgrounds</string>
     <string name="recent">最近</string>
     <string name="hotest">排行</string>
     <string name="favorite">收藏</string>
@@ -19,11 +20,7 @@
     <string name="rank_cold">冷门</string>
     <string name="rank_rand">随机</string>
     <string name="refresh">刷新</string>
-    <string name="um_score">积分</string>
-    <string name="login_score">领取登陆积分</string>
-    <string name="current_score">当前积分</string>
-    <string name="get_score_by_login_tip">每天登陆最壁纸奖励5个积分!</string>
-    <string name="version_name">2.0.1219 beta</string>
+    <string name="version_name">1.0.130214 beta</string>
     <string name="set_as_wallpaper">设置壁纸</string>
     <string name="set_as_contact">设置联系人</string>
     <string name="remove_favorite">移除收藏</string>
@@ -37,7 +34,7 @@
     <string name="server_cannot_connect">服务器连接失败，请重试。</string>
     <string name="server_cannot_connect_and_read_cache">服务器连接失败，开始读取缓存数据。</string>
     <string name="scrollable">可滚动壁纸</string>
-    <string name="new_wallpaper_seted">新的壁纸已设置,请按HOME键查看效果</string>
+    <string name="new_wallpaper_seted">新的壁纸已设置,请到桌面查看效果</string>
     <string name="wallpaper_wrong">设置壁纸出错</string>
     <string name="sure_exit">确定要退出最壁纸应用程序?</string>
     <string name="apply">确定</string>
@@ -54,15 +51,10 @@
     <string name="count_categories">个分类</string>
     <string name="count_favorites">个收藏</string>
     <string name="count_topics">个专题</string>
-    <string name="appwall_get_by_free">免费获取</string>
-    <string name="appwall_get_by_free_tip">下载优质应用，免费获取壁纸积分!</string>  
-    <string name="appwall_open">开通</string>    
-    <string name="appwall_opened">已开通</string>
     <string name="read_data_from_saved_pic">正在从已保存图片中读取...</string>
     <string name="image_saved_already">图片已经保存至sdcard/gale/background/image/目录下，可到图库界面中进行管理。</string>
     <string name="image_saved_already_for_score">图片已经保存至sdcard/gale/background/image/目录下，成功消费了5个积分，可到图库界面中进行管理。</string>
-    <string name="changelog_title">Version 2.0.0921 beta更新日志</string>
-    <string name="buy_topic">购买专题</string>
+    <string name="changelog_title">Version 1.0.130214 beta更新日志</string>
     <string name="general">功能</string>
     <string name="clear_cache">清空缓存</string>
     <string name="clear_cache_tip">清空本地缓存文件。</string>
@@ -73,8 +65,6 @@
     <string name="cache_usage">查看缓存大小</string>
     <string name="check_cache_usage_of_sdcard">查看缓存占用sdcard大小</string>
     <string name="sdcard_is_not_enough_for_download">sdcard容量不足1M,请清理。</string>
-    <string name="thanks_for_the_login">登陆积分已领取，感谢您的支持！</string>
-    <string name="please_get_score_tomorrow">您今天已经拿了积分啦，不要太贪心哦，明天再来吧！</string>
     <string name="please_wait_for_processing">正在处理,请稍等...</string>
     <string name="shortcut">快捷方式</string>
     <string name="create_shortcut_on_desk">创建快捷方式到桌面</string>
@@ -83,7 +73,7 @@
     <string name="change_wallpaper_action">启动定时更换图库中的壁纸</string>
     <string name="change_time">切换时间设置</string>
     <string name="change_time_setting">设置定时壁纸切换时间</string>
-    <string name="about_gale_detail">官方QQ群:171794483 联系QQ:865928580 微博:http://weibo.com/galeworkshop</string>
+    <string name="about_gale_detail">官方QQ群:171794483 联系QQ:360389574 微博:http://weibo.com/galeworkshop</string>
     <string name="download_pic_dir">下载图片文件夹</string>
     <string name="download_pic_dir_detail">下载图片路径：sdcard/gale/background/image/ ,可在图库界面对图片文件进行操作。</string>
     <string name="select_opt">选择操作</string>
@@ -98,9 +88,7 @@
     <string name="widget_change_wallpaper">桌面小部件-切换壁纸器</string>
     <string name="widget_change_wallpaper_detail">添加最壁纸桌面小部件,可随时切换图库壁纸！(点击查看添加方式)</string>
     <string name="widget_setting_detail">桌面小部件设置方式</string>
-    <string name="reload_again">重新加载</string>
-    <string name="appwall_get_by_money">购买积分</string>
-    <string name="appwall_get_by_money_tip">支持支付宝购买积分！</string>    
+    <string name="reload_again">重新加载</string> 
     <!-- <string name="activity_remote_service_binding">AppDemo4</string> -->
     <string name="remote_call_failed">Failure calling remote service</string>       
     <string name="partnerHint">"partner"</string>
@@ -112,9 +100,4 @@
     <string name="notify_urlHint">"notify_url"</string>
     <string name="charsetHint">"charset"</string>
     <string name="signTypeHint">"signType"</string>    
-    <string name="confirm_install_hint">"安装提示"</string> 
-    <string name="confirm_install">"为保证您的交易安全，需要您安装支付宝安全支付服务，才能进行付款。\n\n点击确定，立即安装。"</string> 
-    <string name="Ensure">"确定"</string>
-    <string name="Cancel">"取消"</string>
-    <string name="check_sign_failed">您的订单信息已被非法篡改。</string> 
 </resources>

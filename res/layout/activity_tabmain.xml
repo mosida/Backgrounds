@@ -9,11 +9,11 @@ xmlns:umadsdk="http://schemas.android.com/apk/res/com.galeapp.backgrounds"
         <LinearLayout android:id="@+id/Container" 
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_above="@+id/adLayout"
+            android:layout_above="@+id/scroll"
             android:weightSum="1.0"
             >
         </LinearLayout>
-        <LinearLayout   
+       <!--  <LinearLayout   
            android:id="@+id/adLayout"
            android:layout_width="fill_parent"  
            android:layout_height="wrap_content"   
@@ -27,7 +27,7 @@ xmlns:umadsdk="http://schemas.android.com/apk/res/com.galeapp.backgrounds"
            umadsdk:backgroundColor="#4076AA"
            umadsdk:backgroundTransparent="255"
           /> 
-        </LinearLayout>
+        </LinearLayout> -->
         <HorizontalScrollView 
             android:id="@+id/scroll"
             android:layout_width="fill_parent" 

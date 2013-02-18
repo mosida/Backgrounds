@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical"
+  android:layout_width="240.0dip"
+  android:layout_height="240.0dip"
+  >
+        <ImageView android:id="@+id/image" 
+            android:layout_width="240.0dip" 
+            android:layout_height="240.0dip"
+            />
+        <ImageView android:id="@+id/star"
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" 
+            android:layout_margin="7.5dip" 
+            android:src="@drawable/star" 
+            android:layout_alignRight="@+id/image"
+            android:visibility="invisible" 
+            />
+        <TextView android:textSize="10.0sp" 
+            android:textColor="#ffffffff" 
+            android:id="@+id/extral" 
+            android:background="#60000000" 
+            android:padding="4.5dip" 
+            android:visibility="gone" 
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" 
+            android:layout_alignRight="@+id/image" 
+            android:layout_alignBottom="@+id/image" />
+    <include layout="@layout/list_seperator" />
+</RelativeLayout>

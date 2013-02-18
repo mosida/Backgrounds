@@ -63,7 +63,7 @@ public class CategoryImgAdapter extends BaseAdapter {
 			convertView = myInflater.inflate(R.layout.list_item, null);
 			viewHolder.imageIV = (ImageView) convertView
 					.findViewById(R.id.image);
-			viewHolder.imageIV.setScaleType(ImageView.ScaleType.FIT_CENTER);
+			viewHolder.imageIV.setScaleType(ImageView.ScaleType.FIT_XY);
 			viewHolder.imageId = categoryImg.imageId;
 			convertView.setTag(viewHolder);
 		} else {

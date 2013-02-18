@@ -13,7 +13,7 @@
         android:textSize="15.0sp"
         android:textColor="#ff1f503e"
         android:gravity="center_vertical"
-        android:layout_marginLeft="10.0dp"
+        android:layout_marginLeft="15.0dp"
     />
     <TextView
         android:id="@+id/topicCount"

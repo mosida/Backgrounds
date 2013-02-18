@@ -126,14 +126,14 @@
             android:layout_width="wrap_content" 
             android:layout_height="wrap_content" 
             android:text="@string/download" android:layout_weight="1.0" />
-        <Button android:textSize="13.0sp" 
+        <!-- <Button android:textSize="13.0sp" 
             android:textColor="#ffffffff" 
             android:id="@+id/share" 
             android:background="@drawable/button" 
             android:layout_width="wrap_content" 
             android:layout_height="wrap_content" 
             android:text="@string/share"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0" /> -->
         <Button android:textSize="13.0sp" 
             android:textColor="#ffffffff" 
             android:id="@+id/favorite" 
@@ -145,7 +145,7 @@
     <LinearLayout android:background="@drawable/top_bg" 
         android:layout_width="fill_parent" 
         android:layout_height="10.0dip" />
-    <LinearLayout android:id="@+id/ads" 
+ <!--    <LinearLayout android:id="@+id/ads" 
         android:background="@drawable/top_bg" 
         android:layout_width="fill_parent" 
         android:layout_height="50.0dip" >
@@ -157,5 +157,5 @@
            umadsdk:backgroundColor="#4076AA"
            umadsdk:backgroundTransparent="255"
           /> 
-    </LinearLayout>
+    </LinearLayout> -->
 </LinearLayout>

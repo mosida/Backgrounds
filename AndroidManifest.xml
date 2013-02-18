@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="com.galeapp.backgrounds"
-      android:versionCode="12"
-      android:versionName="2.1">
+      android:versionCode="9"
+      android:versionName="1.0.130214">
      
-    <uses-sdk android:minSdkVersion="5" />
-    <application android:icon="@drawable/icon" android:label="@string/app_name">
+    <uses-sdk android:minSdkVersion="10" />
+    <application android:icon="@drawable/icon" android:label="@string/app_name_bb">
         <activity android:name=".activity.SplashActivity" android:screenOrientation="portrait"
-                  android:label="@string/app_name">
+                  android:label="@string/app_name_bb">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -63,67 +63,41 @@
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
         </receiver>
-        <!-- youmi -->
-        
-        <meta-data android:name="YOUMI_APPID" android:value="38285e040fc5d559"/>
-        <service android:name="net.youmi.push.android.YoumiService"></service>      
-        <activity android:name="net.youmi.push.android.YoumiActivity" android:configChanges="keyboard|keyboardHidden|orientation"></activity>
-        <receiver android:name="net.youmi.push.android.YoumiReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_ADDED"/>
-                <action android:name="android.intent.action.PACKAGE_INSTALL"/>
-                <data android:scheme="package"/>
-            </intent-filter>
-             <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
-            </intent-filter> 
-        </receiver>
-        
-        <activity android:name="net.youmi.android.AdActivity"
-                  android:configChanges="keyboard|keyboardHidden|orientation"/>
-        <activity android:configChanges="keyboard|keyboardHidden|orientation" android:name="net.youmi.android.appoffers.YoumiOffersActivity">  
-        </activity> 
-        
-         <receiver android:name="net.youmi.android.YoumiReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_ADDED"/>
-                <action android:name="android.intent.action.PACKAGE_INSTALL"/>
-                <data android:scheme="package"/>
-            </intent-filter>
-        </receiver> 
-        
-        
-        <receiver android:name="com.galeapp.backgrounds.MiPayReceiver" >
-             <intent-filter>
-               <action android:name="38285e040fc5d559" />
-             </intent-filter>
-        </receiver>
+
         <!-- umeng -->
-        <activity android:name="com.feedback.ui.SendFeedback" android:windowSoftInputMode="adjustResize" /> 
-        <activity android:name="com.feedback.ui.FeedbackConversations" /> 
-        <activity android:name="com.feedback.ui.FeedbackConversation" android:configChanges="keyboard" />                   
-        <meta-data android:value="4e686e31527015049e000002" android:name="UMENG_APPKEY"></meta-data>                   
-        <meta-data android:value="米掌柜" android:name="UMENG_CHANNEL"></meta-data>
-        <activity android:name="com.umeng.fb.ui.SendFeedback"
-            android:windowSoftInputMode="adjustResize" />
-        <activity android:name="com.umeng.fb.ui.FeedbackConversations" />
-        <activity android:name="com.umeng.fb.ui.FeedbackConversation"
-            android:configChanges="keyboard" />
+        <activity android:name="com.umeng.fb.ui.SendFeedback" android:windowSoftInputMode="adjustResize" />
+		<activity android:name="com.umeng.fb.ui.FeedbackConversations" />
+		<activity android:name="com.umeng.fb.ui.FeedbackConversation" android:configChanges="keyboard" />
+                
+        <meta-data android:value="511ba84a527015306e000051" android:name="UMENG_APPKEY"></meta-data>                   
+        <meta-data android:value="黑莓" android:name="UMENG_CHANNEL"></meta-data>
+
         <!-- umeng sns -->
-        <activity android:name="com.umeng.api.activity.OauthActivity"
-                  android:screenOrientation="unspecified"
-                  android:windowSoftInputMode="adjustResize"
-                  android:configChanges="orientation|keyboardHidden">
-        </activity>
-        <activity android:name="com.umeng.api.activity.UpdateStatusActivity"
-                  android:theme="@style/Theme.IOSched"
-                  android:windowSoftInputMode="stateVisible|adjustResize"
-                  android:screenOrientation="unspecified"
-                  android:configChanges="orientation|keyboardHidden">
-        </activity>  
+		<activity
+		    android:name="com.umeng.socialize.view.CommentActivity"
+		    android:configChanges="orientation|keyboard"
+		    android:theme="@style/Theme.UMDefault" >
+		</activity>
+		<activity
+		    android:name="com.umeng.socialize.view.ShareActivity"
+		    android:configChanges="orientation|keyboard"
+		    android:launchMode="singleTask"
+		    android:noHistory="true"
+		    android:theme="@style/Theme.UMDialog"
+		    android:windowSoftInputMode="stateVisible|adjustResize" >
+		</activity>
+		<activity
+		    android:name="com.umeng.socialize.view.CommentDetail"
+		    android:configChanges="orientation|keyboard"
+		    android:noHistory="true"
+		    android:theme="@style/Theme.UMDefault" >
+		</activity>
+		<activity
+		    android:name="com.umeng.socialize.view.CommentDetailNoMap"
+		    android:configChanges="orientation|keyboard"
+		    android:noHistory="true"
+		    android:theme="@style/Theme.UMDefault" >
+		</activity>
         
 
     </application>

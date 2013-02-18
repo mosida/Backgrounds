@@ -28,14 +28,11 @@ public class TopicExpandableListAdapter extends BaseExpandableListAdapter {
 	private Context context;
 	private LayoutInflater layoutInflater;
 	private ArrayList<Topic> topics;
-	private String appWallSwitch;
 
-	public TopicExpandableListAdapter(Context context, ArrayList<Topic> topics,
-			String appWallSwitch) {
+	public TopicExpandableListAdapter(Context context, ArrayList<Topic> topics) {
 		this.context = context;
 		this.layoutInflater = LayoutInflater.from(context);
 		this.topics = topics;
-		this.appWallSwitch = appWallSwitch;
 	}
 
 	@Override
@@ -57,30 +54,16 @@ public class TopicExpandableListAdapter extends BaseExpandableListAdapter {
 				.findViewById(R.id.subTopic);
 		TextView topicCountTV = (TextView) relativeLayout
 				.findViewById(R.id.subTopicCount);
-		TextView topicScoreTV = (TextView) relativeLayout
-				.findViewById(R.id.subTopicScore);
+//		TextView topicScoreTV = (TextView) relativeLayout
+//				.findViewById(R.id.subTopicScore);
 
 		SubTopic subTopic = topics.get(groupPosition).subTopics
 				.get(childPosition);
 		int subCount = subTopic.subCount;
 		String subName = subTopic.subName;
-		int subScore = subTopic.subScore;
 
 		topicTV.setText(subName);
 		topicCountTV.setText("(" + subCount + ")");
-
-		if (appWallSwitch.equals("on")) {
-			// 判断是否已经购买此专题
-			SharedPreferences sharedPreferences = context.getSharedPreferences(
-					Constants.APPWALL, Context.MODE_PRIVATE);
-			boolean topicBuy = sharedPreferences.getBoolean(
-					Constants.APPWALL_TOPIC + subTopic.subTopicId, false);
-			if (false == topicBuy) {
-				topicScoreTV.setText("" + subScore + "积分");
-			} else {
-				topicScoreTV.setText(R.string.appwall_opened);
-			}
-		}
 
 		return relativeLayout;
 	}

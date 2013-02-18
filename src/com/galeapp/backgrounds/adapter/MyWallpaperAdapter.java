@@ -60,7 +60,7 @@ public class MyWallpaperAdapter extends BaseAdapter {
 			convertView = mInflater.inflate(R.layout.list_item, null);
 			viewHolder.imageIV = (ImageView) convertView
 					.findViewById(R.id.image);
-			viewHolder.imageIV.setScaleType(ImageView.ScaleType.FIT_CENTER);
+			viewHolder.imageIV.setScaleType(ImageView.ScaleType.FIT_XY);
 			viewHolder.sizeTV = (TextView) convertView
 					.findViewById(R.id.extral);
 			viewHolder.imageName = picsPath[position];

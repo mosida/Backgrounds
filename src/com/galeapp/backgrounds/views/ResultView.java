@@ -96,6 +96,12 @@ public class ResultView extends ImageView implements OnTouchListener {
 	public void resetLineRectByWidth(Rect rect, int width) {
 		lineRect.left = (picWidth - width) / 2;
 		lineRect.right = lineRect.left + width;
+
+		if(lineRect.left<0){
+			lineRect.left=0;
+			lineRect.right=picWidth-1;
+		}
+		
 		lineRect.top = 0;
 		lineRect.bottom = picHeight - 1;
 	}
@@ -103,6 +109,10 @@ public class ResultView extends ImageView implements OnTouchListener {
 	public void resetLineRectByHeight(Rect rect, int height) {
 		lineRect.top = (picHeight - height) / 2;
 		lineRect.bottom = lineRect.top + height;
+		if(lineRect.top<0){
+			lineRect.top=0;
+			lineRect.bottom=picHeight-1;
+		}
 		lineRect.left = 0;
 		lineRect.right = picWidth - 1;
 	}

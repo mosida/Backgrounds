@@ -56,7 +56,7 @@ public class FavoriteAdapter extends SimpleCursorAdapter {
 		ImageView starView = (ImageView) rl.findViewById(R.id.star);
 		TextView dateView = (TextView) rl.findViewById(R.id.extral);
 
-		imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+		imageView.setScaleType(ImageView.ScaleType.FIT_XY);
 		Bitmap cachedImage = imageLoader.loadBitmap(id, new ImageCallback() {
 			public void imageLoaded(Bitmap imageBitmap, int imageId) {
 				imageView.setImageBitmap(imageBitmap);

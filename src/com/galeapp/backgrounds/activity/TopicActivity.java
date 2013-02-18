@@ -5,21 +5,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import net.umipay.android.PointsNotifier;
-import net.umipay.android.PointsResult;
-import net.umipay.android.SDKPointsManager;
-import net.umipay.android.UmipaySDKManager;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -39,7 +31,6 @@ import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.GridView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -47,7 +38,6 @@ import android.widget.Toast;
 
 import com.galeapp.backgrounds.Constants;
 import com.galeapp.backgrounds.R;
-import com.galeapp.backgrounds.adapter.BuyListAdapter;
 import com.galeapp.backgrounds.adapter.SubTopicImgAdapter;
 import com.galeapp.backgrounds.adapter.TopicExpandableListAdapter;
 import com.galeapp.backgrounds.model.SubTopic;
@@ -57,7 +47,7 @@ import com.galeapp.utils.FileManager;
 import com.galeapp.utils.HttpDownloader;
 import com.umeng.analytics.MobclickAgent;
 
-public class TopicActivity extends Activity implements PointsNotifier {
+public class TopicActivity extends Activity {
 
 	public static final String TAG = "TopicActivity";
 
@@ -88,21 +78,20 @@ public class TopicActivity extends Activity implements PointsNotifier {
 
 	int subTopicId;
 	// 购买专题选项卡
-	LinearLayout tabLayout;
-	LinearLayout topicListTV;
-	LinearLayout buyListTV;
+//	LinearLayout tabLayout;
+//	LinearLayout topicListTV;
+//	LinearLayout buyListTV;
 
 	// 未开通
 	View topicView;
 	View subTopicView;
 	// 已开通
-	View buyView;
-	ArrayList<SubTopic> buyArrayList = new ArrayList<SubTopic>();
+//	View buyView;
+//	ArrayList<SubTopic> buyArrayList = new ArrayList<SubTopic>();
 	ListView buyListView;
-	BuyListAdapter buyListAdapter;
+//	BuyListAdapter buyListAdapter;
 
 	String subTopicName;
-	String appWallSwitch;
 
 	SharedPreferences sharedPreferences;
 	/******** 积分墙 *********/
@@ -113,61 +102,38 @@ public class TopicActivity extends Activity implements PointsNotifier {
 		super.onCreate(savedInstanceState);
 		MobclickAgent.onError(this);
 
-		sharedPreferences = getSharedPreferences(Constants.APPWALL,
-				MODE_PRIVATE);
-
-		// 默认不开通
-		appWallSwitch = sharedPreferences.getString(Constants.APPWALL7, "off");
-		if (appWallSwitch.equals("off")) {
-			// 不开通的情况下请求在线参数是否已经开通了
-			MobclickAgent.updateOnlineConfig(this);
-			appWallSwitch = MobclickAgent.getConfigParams(this,
-					Constants.APPWALL7);
-			Log.i(TAG,
-					"appWallSwitch from umeng:"
-							+ MobclickAgent.getConfigParams(this,
-									Constants.APPWALL7));
-			// 如果开通了，修改参数
-			if (appWallSwitch.equals("on")) {
-				Editor editor = sharedPreferences.edit();
-				editor.putString(Constants.APPWALL7, "on");
-				editor.commit();
-			}
-		}
-
 		topicView = LayoutInflater.from(this).inflate(R.layout.activity_topic,
 				null);
-		buyView = LayoutInflater.from(this).inflate(
-				R.layout.activity_topic_buy, null);
+//		buyView = LayoutInflater.from(this).inflate(
+//				R.layout.activity_topic_buy, null);
 
 		setContentView(topicView);
-		if (appWallSwitch.equals("on")) {
-			tabLayout = (LinearLayout) topicView.findViewById(R.id.tabLayout);
-			tabLayout.setVisibility(View.VISIBLE);
-			topicListTV = (LinearLayout) topicView
-					.findViewById(R.id.topicListTV);
-			buyListTV = (LinearLayout) topicView.findViewById(R.id.buyListTV);
-			topicListTV.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					setContentView(topicView);
-					tabState = ALL_TOPIC_STATE;
-					if (topicJsonStr == null) {
-						loadJsonData();
-					} else {
-						setupViews();
-					}
-				}
-			});
-			buyListTV.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					tabState = BUY_TOPIC_STATE;
-					setContentView(buyView);
-					setupBuyViews();
-				}
-			});
-		}
+//			tabLayout = (LinearLayout) topicView.findViewById(R.id.tabLayout);
+//			tabLayout.setVisibility(View.VISIBLE);
+//			topicListTV = (LinearLayout) topicView
+//					.findViewById(R.id.topicListTV);
+//			buyListTV = (LinearLayout) topicView.findViewById(R.id.buyListTV);
+//			topicListTV.setOnClickListener(new View.OnClickListener() {
+//				@Override
+//				public void onClick(View v) {
+//					setContentView(topicView);
+//					tabState = ALL_TOPIC_STATE;
+//					if (topicJsonStr == null) {
+//						loadJsonData();
+//					} else {
+//						setupViews();
+//					}
+//				}
+//			});
+//			buyListTV.setOnClickListener(new View.OnClickListener() {
+//				@Override
+//				public void onClick(View v) {
+//					tabState = BUY_TOPIC_STATE;
+//					setContentView(buyView);
+//					setupBuyViews();
+//				}
+//			});
+	
 
 		// SDKPointsManager.AsyncQueryPoints(this, 0, this, 0);
 		progressBar = (ProgressBar) topicView.findViewById(R.id.progress);
@@ -218,17 +184,16 @@ public class TopicActivity extends Activity implements PointsNotifier {
 								.getString(SubTopic.SUB_NAME);
 						int subCount = subTopicObject
 								.getInt(SubTopic.SUB_COUNT);
-						int subScore = subTopicObject
-								.getInt(SubTopic.SUB_SCORE);
-						boolean subBuy = sharedPreferences.getBoolean(
-								Constants.APPWALL_TOPIC + subId, false);
+//						int subScore = subTopicObject
+//								.getInt(SubTopic.SUB_SCORE);
+
 						SubTopic subTopic = new SubTopic(subId, subCount,
-								subName, subScore, subBuy, name);
-						if (subBuy == true) {
-							if (!buyArrayList.contains(subTopic)) {
-								buyArrayList.add(subTopic);
-							}
-						}
+								subName, name);
+//						if (subBuy == true) {
+//							if (!buyArrayList.contains(subTopic)) {
+//								buyArrayList.add(subTopic);
+//							}
+//						}
 						subTopics.add(subTopic);
 					}
 					count = subTopics.size();
@@ -287,7 +252,7 @@ public class TopicActivity extends Activity implements PointsNotifier {
 		expandableListView = (ExpandableListView) topicView
 				.findViewById(R.id.myEpListView);
 		topicExpandableListAdapter = new TopicExpandableListAdapter(
-				getApplicationContext(), topics, appWallSwitch);
+				getApplicationContext(), topics);
 		expandableListView.setAdapter(topicExpandableListAdapter);
 
 		expandableListView.setOnChildClickListener(new OnChildClickListener() {
@@ -297,9 +262,7 @@ public class TopicActivity extends Activity implements PointsNotifier {
 				subTopicName = topics.get(groupPosition).subTopics
 						.get(childPosition).subName;
 
-				Log.i(TAG, "appWallSwitch:" + appWallSwitch);
 				// 假如没有积分墙服务
-				if (appWallSwitch == null || appWallSwitch.equals("off")) {
 					state = SUB_TOPIC_STATE;
 					setBackBtn();
 
@@ -315,148 +278,33 @@ public class TopicActivity extends Activity implements PointsNotifier {
 					loadSubJsonData();
 
 					return true;
-				}
 
 				// 先判断是否已经购买此专题,计算所需积分topicScore
-				final SubTopic subTopic = topics.get(groupPosition).subTopics
-						.get(childPosition);
-				subTopicId = topics.get(groupPosition).subTopics
-						.get(childPosition).subTopicId;
-				final int topicScore = topics.get(groupPosition).subTopics
-						.get(childPosition).subScore;
-				boolean topicBuy = sharedPreferences.getBoolean(
-						Constants.APPWALL_TOPIC + subTopicId, false);
-				// 没有购买,弹出购买对话框
-				if (false == topicBuy) {
-					// 不够积分
-//					if (!UmipaySDKManager
-//							.isUmipayAccountLogined(TopicActivity.this)) {
-//						AlertDialog umiPayDlg = new AlertDialog.Builder(
-//								TopicActivity.this)
-//								.setIcon(android.R.drawable.ic_dialog_alert)
-//								.setTitle(R.string.tips)
-//								.setMessage(
-//										"还需" + (topicScore - appWallScore)
-//												+ "个积分开通此专题,，请先登录 米掌柜 领取积分吧！")
-//								.setPositiveButton(
-//										R.string.appwall_get_by_free,
-//										new DialogInterface.OnClickListener() {
-//											@Override
-//											public void onClick(
-//													DialogInterface dialog,
-//													int which) {
-//												UmipaySDKManager
-//														.requestUmipayAccountLogin(TopicActivity.this);
-//											}
-//										})
-//								.setNegativeButton(R.string.cancel, null)
-//								.create();
-//						umiPayDlg.show();
-//						return true;
-//					} else 
-				    if (appWallScore < topicScore) {
-						AlertDialog appWallDlg = new AlertDialog.Builder(
-								TopicActivity.this)
-								.setIcon(android.R.drawable.ic_dialog_alert)
-								.setTitle(R.string.tips)
-								.setMessage(
-										"您当前的积分:" + appWallScore + ",还需"
-												+ (topicScore - appWallScore)
-												+ "个积分开通此专题,马上免费获取积分?")
-								.setPositiveButton(
-										R.string.appwall_get_by_free,
-										new DialogInterface.OnClickListener() {
-											@Override
-											public void onClick(
-													DialogInterface dialog,
-													int which) {
-												// AVLSKDHFKSDHFK.showAppOffers(TopicActivity.this);
-												UmipaySDKManager
-														.requestPayment(
-																TopicActivity.this,
-																0);
-											}
-										})
-								.setNegativeButton(R.string.cancel, null)
-								.create();
-						appWallDlg.show();
-						return true;
-					} else {// 积分足够，询问是否扣除积分购买专题
-						AlertDialog appWallDlg = new AlertDialog.Builder(
-								TopicActivity.this)
-								.setIcon(android.R.drawable.ic_dialog_alert)
-								.setTitle(R.string.tips)
-								.setMessage(
-										"您当前的积分:" + appWallScore + ",需"
-												+ topicScore + "个积分开通此专题,马上开通?")
-								.setPositiveButton(R.string.appwall_open,
-										new DialogInterface.OnClickListener() {
-											@Override
-											public void onClick(
-													DialogInterface dialog,
-													int which) {
-												// 消费积分
-												// AVLSKDHFKSDHFK.spendPoints(TopicActivity.this,
-												// topicScore);
-												SDKPointsManager
-														.AsyncSpendPoints(
-																TopicActivity.this,
-																0,
-																TopicActivity.this,
-																0, topicScore);
-												// appWallScore =
-												// AVLSKDHFKSDHFK.getPoints(TopicActivity.this);
-												// appWallScore =
-												// YoumiPointsManager.queryPoints(TopicActivity.this);
-												Editor editor = sharedPreferences
-														.edit();
-												editor.putBoolean(
-														Constants.APPWALL_TOPIC
-																+ subTopicId,
-														true);
-												editor.commit();
+//				final SubTopic subTopic = topics.get(groupPosition).subTopics
+//						.get(childPosition);
+//				subTopicId = topics.get(groupPosition).subTopics
+//						.get(childPosition).subTopicId;
+//				final int topicScore = topics.get(groupPosition).subTopics
+//						.get(childPosition).subScore;
+//				boolean topicBuy = sharedPreferences.getBoolean(
+//						Constants.APPWALL_TOPIC + subTopicId, false);
 
-												// 刷新界面
-												topicExpandableListAdapter
-														.notifyDataSetChanged();
-												// 已购买界面
-												subTopic.subBuy = true;
-												buyArrayList.add(subTopic);
-												if (buyListAdapter != null) {
-													buyListAdapter
-															.notifyDataSetChanged();
-												}
 
-												// 统计哪个分类比较多人购买
-												MobclickAgent
-														.onEvent(
-																TopicActivity.this,
-																getString(R.string.buy_topic),
-																subTopicName);
-											}
-										})
-								.setNegativeButton(R.string.cancel, null)
-								.create();
-						appWallDlg.show();
-						return true;
-					}
-				}
-
-				state = SUB_TOPIC_STATE;
-				setBackBtn();
-
-				currentTopic = topics.get(groupPosition);
-				currentSubTopic = topics.get(groupPosition).subTopics
-						.get(childPosition);
-
-				subTopicView = LayoutInflater.from(TopicActivity.this).inflate(
-						R.layout.activity_sub_topic, null);
-				setContentView(subTopicView);
-				progressBar = (ProgressBar) subTopicView
-						.findViewById(R.id.progress);
-				loadSubJsonData();
-
-				return true;
+//				state = SUB_TOPIC_STATE;
+//				setBackBtn();
+//
+//				currentTopic = topics.get(groupPosition);
+//				currentSubTopic = topics.get(groupPosition).subTopics
+//						.get(childPosition);
+//
+//				subTopicView = LayoutInflater.from(TopicActivity.this).inflate(
+//						R.layout.activity_sub_topic, null);
+//				setContentView(subTopicView);
+//				progressBar = (ProgressBar) subTopicView
+//						.findViewById(R.id.progress);
+//				loadSubJsonData();
+//
+//				return true;
 			}
 		});
 	}
@@ -669,9 +517,10 @@ public class TopicActivity extends Activity implements PointsNotifier {
 				Log.i(TAG, "setContentView");
 				if (tabState == ALL_TOPIC_STATE) {
 					setContentView(topicView);
-				} else {
-					setContentView(buyView);
-				}
+				} 
+//				else {
+//					setContentView(buyView);
+//				}
 				state = ALL_TOPIC_STATE;
 				backBtn = (Button) getParent().findViewById(R.id.back);
 				backBtn.setVisibility(View.INVISIBLE);
@@ -700,13 +549,7 @@ public class TopicActivity extends Activity implements PointsNotifier {
 		}
 		super.onResume();
 		Log.i(TAG, "onResume");
-		// 更新积分墙的积分
-		// appWallScore = AVLSKDHFKSDHFK.getPoints(getApplicationContext());
-		if (!UmipaySDKManager.isUmipayAccountLogined(this)) {
 
-		} else {
-			SDKPointsManager.AsyncQueryPoints(this, 0, this, 0);
-		}
 		MobclickAgent.onResume(this);
 		setBackBtn();
 	}
@@ -731,9 +574,10 @@ public class TopicActivity extends Activity implements PointsNotifier {
 					state = ALL_TOPIC_STATE;
 					if (tabState == ALL_TOPIC_STATE) {
 						setContentView(topicView);
-					} else {
-						setContentView(buyView);
-					}
+					} 
+//					else {
+//						setContentView(buyView);
+//					}
 				}
 			});
 		} else {
@@ -742,142 +586,57 @@ public class TopicActivity extends Activity implements PointsNotifier {
 	}
 
 	// 设置已购买界面
-	public void setupBuyViews() {
-		tabLayout = (LinearLayout) buyView.findViewById(R.id.tabLayout);
-		tabLayout.setVisibility(View.VISIBLE);
-		topicListTV = (LinearLayout) buyView.findViewById(R.id.topicListTV);
-		buyListTV = (LinearLayout) buyView.findViewById(R.id.buyListTV);
-		countView = (TextView) buyView.findViewById(R.id.count);
-		countView.setText("" + buyArrayList.size());
+//	public void setupBuyViews() {
+//		tabLayout = (LinearLayout) buyView.findViewById(R.id.tabLayout);
+//		tabLayout.setVisibility(View.VISIBLE);
+//		topicListTV = (LinearLayout) buyView.findViewById(R.id.topicListTV);
+//		buyListTV = (LinearLayout) buyView.findViewById(R.id.buyListTV);
+//		countView = (TextView) buyView.findViewById(R.id.count);
+//		countView.setText("" + buyArrayList.size());
+//
+//		topicListTV.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				setContentView(topicView);
+//				tabState = ALL_TOPIC_STATE;
+//				if (topicJsonStr == null) {
+//					loadJsonData();
+//				} else {
+//					setupViews();
+//				}
+//			}
+//		});
+//		buyListTV.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				tabState = BUY_TOPIC_STATE;
+//				setContentView(buyView);
+//				setupBuyViews();
+//			}
+//		});
+//		buyListView = (ListView) buyView.findViewById(R.id.buyList);
+//		buyListAdapter = new BuyListAdapter(this, buyArrayList);
+//		buyListView.setAdapter(buyListAdapter);
+//		buyListView.setOnItemClickListener(new OnItemClickListener() {
+//			@Override
+//			public void onItemClick(AdapterView<?> arg0, View arg1,
+//					int position, long arg3) {
+//				state = SUB_TOPIC_STATE;
+//				setBackBtn();
+//				currentSubTopic = buyArrayList.get(position);
+//				currentTopic = new Topic(-1, buyArrayList.size(),
+//						currentSubTopic.subName, buyArrayList);
+//
+//				subTopicView = LayoutInflater.from(TopicActivity.this).inflate(
+//						R.layout.activity_sub_topic, null);
+//				setContentView(subTopicView);
+//				progressBar = (ProgressBar) subTopicView
+//						.findViewById(R.id.progress);
+//				loadSubJsonData();
+//
+//			}
+//		});
+//	}
 
-		topicListTV.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				setContentView(topicView);
-				tabState = ALL_TOPIC_STATE;
-				if (topicJsonStr == null) {
-					loadJsonData();
-				} else {
-					setupViews();
-				}
-			}
-		});
-		buyListTV.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				tabState = BUY_TOPIC_STATE;
-				setContentView(buyView);
-				setupBuyViews();
-			}
-		});
-		buyListView = (ListView) buyView.findViewById(R.id.buyList);
-		buyListAdapter = new BuyListAdapter(this, buyArrayList);
-		buyListView.setAdapter(buyListAdapter);
-		buyListView.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1,
-					int position, long arg3) {
-				state = SUB_TOPIC_STATE;
-				setBackBtn();
-				currentSubTopic = buyArrayList.get(position);
-				currentTopic = new Topic(-1, buyArrayList.size(),
-						currentSubTopic.subName, buyArrayList);
-
-				subTopicView = LayoutInflater.from(TopicActivity.this).inflate(
-						R.layout.activity_sub_topic, null);
-				setContentView(subTopicView);
-				progressBar = (ProgressBar) subTopicView
-						.findViewById(R.id.progress);
-				loadSubJsonData();
-
-			}
-		});
-	}
-
-	@Override
-	public void onPointsResult(int requestCode, PointsResult result) {
-		// TODO Auto-generated method stub
-		try {
-
-			// 米掌柜SDK支持有米服务器虚拟货币托管服务，有别于有米积分墙的本地积分托管，使用米掌柜SDK的虚拟货币账户将会保存到有米服务器中。
-			// 虚拟货币账户标识由[米掌柜账户ID+AppID+VID]组成，因此必须要求用户在已经登录了米掌柜的情况下使用虚拟货币账户的操作。
-			// 每个虚拟货币账户都有一个编号: VID (目前只支持一套VID为0的默认虚拟货币账户，后续会开放对多套虚拟货币的支持)。
-			// 要启用虚拟货币账户，必须在有米主站开发者控制面板中启用米掌柜业务，并且设置虚拟货币的单位名称及汇率。
-
-			// ---
-			// Demo中假设虚拟货币单位为"金币",VID为0
-
-			String demoCurrencyName = "金币";
-
-			StringBuilder msg = new StringBuilder();
-
-			if (result != null) {
-
-				switch (result.getOptionsType()) {// 获取回调的操作值
-				case PointsResult.TYPE_OPTION_QUERY_POINTS:// 查询虚拟货币余额
-					msg.append("查询").append(demoCurrencyName);
-					break;
-				case PointsResult.TYPE_OPTION_AWARD_POINTS:// 奖励给用户一定数额的虚拟货币
-					msg.append("奖励").append(demoCurrencyName);
-					break;
-				case PointsResult.TYPE_OPTION_SPEND_POINTS:// 消费一定数额的虚拟货币
-					msg.append("消费").append(demoCurrencyName);
-					break;
-				default:
-					break;
-				}
-
-				switch (result.getResultCode()) {
-				case PointsResult.RESULT_OK:// 操作成功
-					msg.append("操作成功,账户余额为:").append(result.getPoints());
-					appWallScore = result.getPoints();
-					// showPoint(result.getPoints());// 显示虚拟货币余额
-					break;
-				case PointsResult.RESULT_ERROR_UMIPAY_UNLOGIN:// 当前用户未登录米掌柜，虚拟货币账户将不可用，需要用户进行登录
-					msg.append("操作失败，请登录米掌柜");
-					UmipaySDKManager
-							.requestUmipayAccountLogin(TopicActivity.this);// 需要请求登录米掌柜账户
-					break;
-				case PointsResult.RESULT_ERROR_NETWORK_UNAVAILABLE:// 当前网络不可用，可提醒用户设置网络
-					msg.append("操作失败，请检查网络设置");
-					break;
-				case PointsResult.RESULT_ERROR_SERVER_EXCEPTION:// 连接虚拟货币服务器失败
-					msg.append("操作失败，连接服务器异常");
-					break;
-				case PointsResult.RESULT_ERROR_ILLEGAL_AMOUNT:// 奖励或消费的虚拟货币值不合法，必须为正整数
-					msg.append("操作失败");
-					break;
-				case PointsResult.RESULT_ERROR_INSUFFICIENT:// 虚拟货币账户余额不足，消费虚拟货币失败
-					msg.append("操作失败，账户余额不足");
-					break;
-				case PointsResult.RESULT_ERROR_VID_INVALID:// 虚拟货币编号无效，目标虚拟货币不存在
-					msg.append("操作失败，账户不存在");
-					break;
-				case PointsResult.RESULT_ERROR_EXCEPTION:// 其他不可预料的异常
-					msg.append("操作失败");
-					break;
-				default:
-					break;
-				}
-
-				// demo:提示操作结果
-				Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-
-				// demo:在界面上显示错误信息
-				if (result.getResultCode() != PointsResult.RESULT_OK) {
-					showErrMsg(result, requestCode, msg.toString());
-				}
-			}
-
-		} catch (Throwable e) {
-			// TODO: handle exception
-		}
-	}
-
-	void showErrMsg(PointsResult result, int requestCode, String msg) {
-		// Toast.makeText(this,
-		// (String.format("%s\n(本次请求码:%d,虚拟货币编号:%d,错误码:%d)", msg,
-		// requestCode, result.getVid(), result.getResultCode())),
-		// Toast.LENGTH_LONG).show();
-	}
+	
 }
