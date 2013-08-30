@@ -9,8 +9,13 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
 
+import com.galeapp.backgrounds.Constants;
 import com.galeapp.backgrounds.R;
 import com.umeng.analytics.MobclickAgent;
+
+import net.youmi.android.AdManager;
+import net.youmi.android.smart.SmartBannerManager;
+
 
 public class SplashActivity extends Activity {
 
@@ -28,6 +33,12 @@ public class SplashActivity extends Activity {
 		setContentView(R.layout.activity_splash);
 
 		// Counter.asyncActivate(this, 1);
+
+
+        AdManager.getInstance(this).init(Constants.YOUMI_ID, Constants.YOUMI_SEC, false);
+        SmartBannerManager.init(this);
+
+
 
 		ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress);
 		progressBar.setVisibility(View.VISIBLE);

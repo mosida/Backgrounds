@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="com.galeapp.backgrounds"
-      android:versionCode="9"
-      android:versionName="1.0.130214">
+      android:versionCode="16"
+      android:versionName="2.6.130801">
      
     <uses-sdk android:minSdkVersion="10" />
-    <application android:icon="@drawable/icon" android:label="@string/app_name_bb">
+    <application android:icon="@drawable/icon" android:label="@string/app_name">
         <activity android:name=".activity.SplashActivity" android:screenOrientation="portrait"
-                  android:label="@string/app_name_bb">
+                  android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -17,7 +17,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.SettingActivity">         
+        <activity android:name=".activity.SettingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"></action>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -69,37 +69,36 @@
 		<activity android:name="com.umeng.fb.ui.FeedbackConversations" />
 		<activity android:name="com.umeng.fb.ui.FeedbackConversation" android:configChanges="keyboard" />
                 
-        <meta-data android:value="511ba84a527015306e000051" android:name="UMENG_APPKEY"></meta-data>                   
-        <meta-data android:value="黑莓" android:name="UMENG_CHANNEL"></meta-data>
+        <meta-data android:value="511ba84a527015306e000051" android:name="UMENG_APPKEY"></meta-data>
+        <meta-data android:value="smartbanner" android:name="UMENG_CHANNEL"></meta-data>
 
-        <!-- umeng sns -->
-		<activity
-		    android:name="com.umeng.socialize.view.CommentActivity"
-		    android:configChanges="orientation|keyboard"
-		    android:theme="@style/Theme.UMDefault" >
-		</activity>
-		<activity
-		    android:name="com.umeng.socialize.view.ShareActivity"
-		    android:configChanges="orientation|keyboard"
-		    android:launchMode="singleTask"
-		    android:noHistory="true"
-		    android:theme="@style/Theme.UMDialog"
-		    android:windowSoftInputMode="stateVisible|adjustResize" >
-		</activity>
-		<activity
-		    android:name="com.umeng.socialize.view.CommentDetail"
-		    android:configChanges="orientation|keyboard"
-		    android:noHistory="true"
-		    android:theme="@style/Theme.UMDefault" >
-		</activity>
-		<activity
-		    android:name="com.umeng.socialize.view.CommentDetailNoMap"
-		    android:configChanges="orientation|keyboard"
-		    android:noHistory="true"
-		    android:theme="@style/Theme.UMDefault" >
-		</activity>
-        
 
+
+        <activity
+                android:name="net.youmi.android.AdBrowser"
+                android:configChanges="keyboard|keyboardHidden|orientation"
+                android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        <service
+                android:name="net.youmi.android.AdService"
+                android:exported="false" >
+        </service>
+        <receiver
+                android:name="net.youmi.android.AdReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
+        <service
+                android:name="net.youmi.android.SmartBannerService"
+                android:exported="false"
+                ></service>
+        <activity
+                android:name="net.youmi.android.SmartBannerActivity"
+                android:configChanges="keyboard|keyboardHidden|orientation"
+                android:theme="@style/Transparent" >
+        </activity>
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -114,5 +113,8 @@
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>  
     <uses-permission android:name="android.permission.VIBRATE"/>
+
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"></uses-permission>
+    <uses-permission android:name="android.permission.GET_TASKS"/>
     <supports-screens android:anyDensity="true" android:normalScreens="true" android:largeScreens="true" />    
 </manifest>

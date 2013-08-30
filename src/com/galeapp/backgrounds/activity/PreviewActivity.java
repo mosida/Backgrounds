@@ -48,12 +48,6 @@ import com.galeapp.backgrounds.receiver.WallpaperReceiver;
 import com.galeapp.utils.FileManager;
 import com.galeapp.utils.HttpDownloader;
 import com.umeng.analytics.MobclickAgent;
-import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.umeng.socialize.bean.ShareImage;
-import com.umeng.socialize.bean.SocializeConfig;
-import com.umeng.socialize.controller.RequestType;
-import com.umeng.socialize.controller.UMServiceFactory;
-import com.umeng.socialize.controller.UMSocialService;
 
 public class PreviewActivity extends Activity implements OnTouchListener {
 
@@ -599,28 +593,7 @@ public class PreviewActivity extends Activity implements OnTouchListener {
 					return;
 				}
 				
-				//des 参数对应actionbar 
-				UMSocialService controller = UMServiceFactory.getUMSocialService("分享图片", RequestType.SOCIAL);
-				//设置默认分享文字
-				controller.setShareContent("#最壁纸黑莓版# 每次打开手机看到美美的壁纸，一天的心情都会亮起来，分享一下我喜欢的图片~");
-
-				//设置分享图片(支持4种方式),一个ActionBar最多只能选择一种
-				//注意：预设图片构造会对序列化图片对象，不可以马上使用。
-				/*//Resource Id
-				controller.setShareImage(new ShareImage(mContext, R.drawable.testimg));
-				//File
-				controller.setShareImage(new ShareImage(new File("mnt/sdcard/2mb.jpg")));
-				//Bitmap
-				controller.setShareImage(new ShareImage(mContext, bitmap));*/
-				//Raw
-				controller.setShareImage(new ShareImage(context.getApplicationContext(), shareBitmap));
-
-				//配置分享平台，默认全部
-				SocializeConfig socializeConfig = new SocializeConfig();
-				socializeConfig.setPlatforms(SHARE_MEDIA.TENCENT,SHARE_MEDIA.SINA,SHARE_MEDIA.RENREN);//设置分享平台
-				controller.setConfig(socializeConfig);//该配置只作用于单个ActionBar（相同des参数描述）
-
-				//配置全局Congfig（作用于所有AcitonBar，View级别集成接口）
+        		//配置全局Congfig（作用于所有AcitonBar，View级别集成接口）
 				//controller.setGlobalConfig(socializeConfig)
 				// 统计分享文件次数
 				MobclickAgent.onEvent(PreviewActivity.this,

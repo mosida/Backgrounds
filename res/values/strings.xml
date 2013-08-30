@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">最壁纸</string>
-    <string name="app_name_bb">Backgrounds</string>
+    <!--<string name="app_name_bb">Backgrounds</string>-->
     <string name="recent">最近</string>
     <string name="hotest">排行</string>
     <string name="favorite">收藏</string>
@@ -54,7 +54,7 @@
     <string name="read_data_from_saved_pic">正在从已保存图片中读取...</string>
     <string name="image_saved_already">图片已经保存至sdcard/gale/background/image/目录下，可到图库界面中进行管理。</string>
     <string name="image_saved_already_for_score">图片已经保存至sdcard/gale/background/image/目录下，成功消费了5个积分，可到图库界面中进行管理。</string>
-    <string name="changelog_title">Version 1.0.130214 beta更新日志</string>
+    <string name="changelog_title">Version 2.6.130801 beta更新日志</string>
     <string name="general">功能</string>
     <string name="clear_cache">清空缓存</string>
     <string name="clear_cache_tip">清空本地缓存文件。</string>

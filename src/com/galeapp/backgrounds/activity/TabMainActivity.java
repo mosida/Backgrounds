@@ -34,6 +34,11 @@ import com.umeng.analytics.MobclickAgent;
 import com.umeng.fb.NotificationType;
 import com.umeng.fb.UMFeedbackService;
 
+import net.youmi.android.AdManager;
+import net.youmi.android.dev.OnlineConfigCallBack;
+import net.youmi.android.smart.SmartBannerManager;
+
+
 public class TabMainActivity extends ActivityGroup {
 
 	public static final String TAG = "TabMainActivity";
@@ -66,7 +71,40 @@ public class TabMainActivity extends ActivityGroup {
 		UMFeedbackService.enableNewReplyNotification(this,
 				NotificationType.AlertDialog);
 		//
+        AdManager.getInstance(this).asyncCheckAppUpdate(null); //注意，此方法可以在任意线程中调用。
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        String mykey="smartbanner";//key
+        String defaultValue=null;//默认的value，当获取不到在线参数时，会返回该值
+        //1.同步调用方法，务必在非UI线程中调用，否则可能会失败。
+        String value= AdManager.getInstance(this).syncGetOnlineConfig(mykey,
+                defaultValue);
+        //--------------------------------------------------
+        //2.异步调用方法(可在任意线程中调用):
+//        AdManager.getInstance(this).asyncGetOnlineConfig(mykey, new OnlineConfigCallBack() {
+//            @Override
+//            public void onGetOnlineConfigSuccessful(String key, String value) {
+//                // TODO Auto-generated method stub
+//                //获取在线参数成功
+//                if (value.equals("on")){
+//                    SmartBannerManager.show(TabMainActivity.this);
+//                }else{
+//                    Log.i(TAG, "拿到off");
+//                }
+//            }
+//            @Override
+//            public void onGetOnlineConfigFailed(String key) {
+//                // TODO Auto-generated method stub
+//                //获取在线参数失败，可能原因有：键值未设置或为空、网络异常、服务器异常
+//                Log.i(TAG, "拿不到");
+//            }
+//        });
+
+        SmartBannerManager.show(TabMainActivity.this);
+
+//        SpotManager.getInstance(this).showSpotAds(this);
+
+
 
 		DisplayMetrics dm = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(dm);

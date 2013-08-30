@@ -25,12 +25,7 @@ import android.widget.Toast;
 import com.galeapp.backgrounds.R;
 import com.galeapp.utils.FileManager;
 import com.umeng.analytics.MobclickAgent;
-import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.umeng.socialize.bean.ShareImage;
-import com.umeng.socialize.bean.SocializeConfig;
-import com.umeng.socialize.controller.RequestType;
-import com.umeng.socialize.controller.UMServiceFactory;
-import com.umeng.socialize.controller.UMSocialService;
+
 
 public class PicActivity extends Activity {
 
